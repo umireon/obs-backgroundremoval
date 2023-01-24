@@ -16,12 +16,6 @@ else()
   set(OpenCV_LIB_SUFFIX "")
 endif()
 
-if(MSVC)
-  set(OpenCV_INCLUDE_PATH ${INSTALL_DIR}/include)
-else()
-  set(OpenCV_INCLUDE_PATH ${INSTALL_DIR}/include/opencv4)
-endif(MSVC)
-
 if(${CMAKE_BUILD_TYPE} STREQUAL Release OR ${CMAKE_BUILD_TYPE} STREQUAL RelWithDebInfo)
   set(OpenCV_BUILD_TYPE Release)
 else()
@@ -110,7 +104,18 @@ ExternalProject_Add(
              -DWITH_LAPACK=OFF
              -DWITH_QUIRC=OFF
              -DWITH_ADE=OFF
+             -DWITH_ITT=OFF
+             -DWITH_OPENCL=OFF
+             -DWITH_IPP=OFF
              )
+
+
+ExternalProject_Get_Property(OpenCV_Build INSTALL_DIR)
+if(MSVC)
+    set(OpenCV_INCLUDE_PATH ${INSTALL_DIR}/include)
+else()
+    set(OpenCV_INCLUDE_PATH ${INSTALL_DIR}/include/opencv4)
+endif(MSVC)
 
 add_library(OpenCV::Imgproc STATIC IMPORTED)
 set_target_properties(
@@ -119,8 +124,6 @@ PROPERTIES
     IMPORTED_LOCATION
     ${INSTALL_DIR}/${OpenCV_LIB_PATH}/${CMAKE_STATIC_LIBRARY_PREFIX}opencv_imgproc${OpenCV_LIB_SUFFIX}${CMAKE_STATIC_LIBRARY_SUFFIX}
 )
-target_include_directories(OpenCV::Imgproc INTERFACE ${OpenCV_INCLUDE_PATH})
-add_dependencies(OpenCV::Imgproc OpenCV_Build)
 
 add_library(OpenCV::Core STATIC IMPORTED)
 set_target_properties(
@@ -129,8 +132,19 @@ set_target_properties(
     IMPORTED_LOCATION
     ${INSTALL_DIR}/${OpenCV_LIB_PATH}/${CMAKE_STATIC_LIBRARY_PREFIX}opencv_core${OpenCV_LIB_SUFFIX}${CMAKE_STATIC_LIBRARY_SUFFIX}
 )
-target_include_directories(OpenCV::Core INTERFACE ${OpenCV_INCLUDE_PATH})
-add_dependencies(OpenCV::Core OpenCV_Build)
+
+add_library(OpenCV::Zlib STATIC IMPORTED)
+set_target_properties(
+  OpenCV::Zlib
+  PROPERTIES
+    IMPORTED_LOCATION
+    ${INSTALL_DIR}/${OpenCV_LIB_PATH_3RD}/${CMAKE_STATIC_LIBRARY_PREFIX}zlib${CMAKE_STATIC_LIBRARY_SUFFIX}
+)
 
 add_library(OpenCV INTERFACE)
-target_link_libraries(OpenCV INTERFACE OpenCV::Imgproc OpenCV::Core)
+add_dependencies(OpenCV OpenCV_Build)
+target_link_libraries(OpenCV INTERFACE OpenCV::Imgproc OpenCV::Core OpenCV::Zlib)
+target_include_directories(OpenCV INTERFACE ${OpenCV_INCLUDE_PATH})
+if(APPLE)
+  target_link_libraries(OpenCV INTERFACE "-framework Accelerate")
+endif(APPLE)
