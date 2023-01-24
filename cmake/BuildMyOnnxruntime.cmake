@@ -17,7 +17,7 @@ else()
 endif()
 
 ExternalProject_Add(
-  Onnxruntime_Build
+  Ort
   GIT_REPOSITORY https://github.com/microsoft/onnxruntime.git
   GIT_TAG v1.13.1
   CONFIGURE_COMMAND ""
@@ -59,10 +59,10 @@ ExternalProject_Add(
     <BINARY_DIR>/${CMAKE_BUILD_TYPE}/external/abseil-cpp/absl/container/${CMAKE_STATIC_LIBRARY_PREFIX}absl_raw_hash_set${CMAKE_STATIC_LIBRARY_SUFFIX}
     <INSTALL_DIR>/lib)
 
-ExternalProject_Get_Property(Onnxruntime_Build INSTALL_DIR)
+ExternalProject_Get_Property(Ort INSTALL_DIR)
 
 add_library(Onnxruntime INTERFACE)
-add_dependencies(Onnxruntime Onnxruntime_Build)
+add_dependencies(Onnxruntime Ort)
 target_include_directories(
   Onnxruntime INTERFACE ${INSTALL_DIR}/include
                         ${INSTALL_DIR}/include/onnxruntime/core/session)
