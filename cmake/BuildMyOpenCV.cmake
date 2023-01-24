@@ -16,7 +16,8 @@ else()
   set(OpenCV_LIB_SUFFIX "")
 endif()
 
-if(${CMAKE_BUILD_TYPE} STREQUAL Release OR ${CMAKE_BUILD_TYPE} STREQUAL RelWithDebInfo)
+if(${CMAKE_BUILD_TYPE} STREQUAL Release OR ${CMAKE_BUILD_TYPE} STREQUAL
+                                           RelWithDebInfo)
   set(OpenCV_BUILD_TYPE Release)
 else()
   set(OpenCV_BUILD_TYPE Debug)
@@ -106,21 +107,19 @@ ExternalProject_Add(
              -DWITH_ADE=OFF
              -DWITH_ITT=OFF
              -DWITH_OPENCL=OFF
-             -DWITH_IPP=OFF
-             )
-
+             -DWITH_IPP=OFF)
 
 ExternalProject_Get_Property(OpenCV_Build INSTALL_DIR)
 if(MSVC)
-    set(OpenCV_INCLUDE_PATH ${INSTALL_DIR}/include)
+  set(OpenCV_INCLUDE_PATH ${INSTALL_DIR}/include)
 else()
-    set(OpenCV_INCLUDE_PATH ${INSTALL_DIR}/include/opencv4)
+  set(OpenCV_INCLUDE_PATH ${INSTALL_DIR}/include/opencv4)
 endif(MSVC)
 
 add_library(OpenCV::Imgproc STATIC IMPORTED)
 set_target_properties(
-OpenCV::Imgproc
-PROPERTIES
+  OpenCV::Imgproc
+  PROPERTIES
     IMPORTED_LOCATION
     ${INSTALL_DIR}/${OpenCV_LIB_PATH}/${CMAKE_STATIC_LIBRARY_PREFIX}opencv_imgproc${OpenCV_LIB_SUFFIX}${CMAKE_STATIC_LIBRARY_SUFFIX}
 )
@@ -143,7 +142,8 @@ set_target_properties(
 
 add_library(OpenCV INTERFACE)
 add_dependencies(OpenCV OpenCV_Build)
-target_link_libraries(OpenCV INTERFACE OpenCV::Imgproc OpenCV::Core OpenCV::Zlib)
+target_link_libraries(OpenCV INTERFACE OpenCV::Imgproc OpenCV::Core
+                                       OpenCV::Zlib)
 target_include_directories(OpenCV INTERFACE ${OpenCV_INCLUDE_PATH})
 if(APPLE)
   target_link_libraries(OpenCV INTERFACE "-framework Accelerate")

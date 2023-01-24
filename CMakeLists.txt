@@ -52,7 +52,7 @@ include(cmake/BuildMyOpenCV.cmake)
 
 set(CMAKE_MODULE_PATH "${CMAKE_MODULE_PATH};${CMAKE_SOURCE_DIR}/external")
 find_package(Onnxruntime REQUIRED)
-#find_package(OpenCV 4.7.1 REQUIRED COMPONENTS core imgproc)
+# find_package(OpenCV 4.7.1 REQUIRED COMPONENTS core imgproc)
 include_directories(
   ${LIBOBS_INCLUDE_DIR}/../UI/obs-frontend-api ${LIBOBS_INCLUDE_DIR}
   ${LIBOBS_INCLUDE_DIRS} ${Onnxruntime_INCLUDE_DIRS})
