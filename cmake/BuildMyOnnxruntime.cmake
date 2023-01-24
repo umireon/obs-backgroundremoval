@@ -29,7 +29,8 @@ endif()
 
 ExternalProject_Add(
   Ort
-  URL ${CMAKE_SOURCE_DIR}/vendor/onnxruntime
+  GIT_REPOSITORY https://github.com/microsoft/onnxruntime.git
+  GIT_TAG v1.13.1
   CONFIGURE_COMMAND ""
   BUILD_COMMAND
     ${PYTHON} <SOURCE_DIR>/tools/ci_build/build.py --build_dir <BINARY_DIR>
