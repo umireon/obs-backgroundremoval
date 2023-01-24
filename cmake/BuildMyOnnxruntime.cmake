@@ -18,19 +18,20 @@ endif()
 
 if(OS_WINDOWS)
   set(PYTHON python)
+  set(Onnxruntime_GENERATOR_OPTION --cmake_generator ${CMAKE_GENERATOR})
 else()
   set(PYTHON python3)
-endif()
+endif(Onnxruntime_GENERATOR_OPTION "")
 
 ExternalProject_Add(
   Ort
   GIT_REPOSITORY https://github.com/microsoft/onnxruntime.git
   GIT_TAG v1.13.1
+  GIT_SHALLOW ON
   CONFIGURE_COMMAND ""
   BUILD_COMMAND
     ${PYTHON} <SOURCE_DIR>/tools/ci_build/build.py --build_dir <BINARY_DIR>
-    --config ${CMAKE_BUILD_TYPE} --parallel --skip_tests --cmake_generator
-    ${CMAKE_GENERATOR}
+    --config ${CMAKE_BUILD_TYPE} --parallel --skip_tests
   BUILD_BYPRODUCTS
     <INSTALL_DIR>/lib/${CMAKE_STATIC_LIBRARY_PREFIX}onnxruntime_session${CMAKE_STATIC_LIBRARY_SUFFIX}
     <INSTALL_DIR>/lib/${CMAKE_STATIC_LIBRARY_PREFIX}onnxruntime_framework${CMAKE_STATIC_LIBRARY_SUFFIX}

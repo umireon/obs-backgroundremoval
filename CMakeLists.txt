@@ -48,9 +48,12 @@ configure_file(src/plugin-macros.h.in
 
 target_sources(${CMAKE_PROJECT_NAME} PRIVATE src/plugin-macros.generated.h)
 
-include(cmake/BuildMyOpenCV.cmake)
+#include(cmake/BuildMyOpenCV.cmake)
 include(cmake/BuildMyOnnxruntime.cmake)
-target_link_libraries(${CMAKE_PROJECT_NAME} PRIVATE Onnxruntime OpenCV)
+target_link_libraries(${CMAKE_PROJECT_NAME} PRIVATE
+Onnxruntime
+#OpenCV
+)
 
 # /!\ TAKE NOTE: No need to edit things past this point /!\
 
