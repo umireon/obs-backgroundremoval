@@ -16,13 +16,20 @@ else()
   set(Onnxruntime_LIB_SUFFIX "")
 endif()
 
+if(OS_WINDOWS)
+  set(PYTHON python)
+else()
+  set(PYTHON python3)
+endif()
+
+
 ExternalProject_Add(
   Ort
   GIT_REPOSITORY https://github.com/microsoft/onnxruntime.git
   GIT_TAG v1.13.1
   CONFIGURE_COMMAND ""
   BUILD_COMMAND
-    python3 <SOURCE_DIR>/tools/ci_build/build.py --build_dir <BINARY_DIR>
+    ${PYTHON} <SOURCE_DIR>/tools/ci_build/build.py --build_dir <BINARY_DIR>
     --config ${CMAKE_BUILD_TYPE} --parallel --skip_tests
   BUILD_BYPRODUCTS
     <INSTALL_DIR>/lib/${CMAKE_STATIC_LIBRARY_PREFIX}onnxruntime_session${CMAKE_STATIC_LIBRARY_SUFFIX}
