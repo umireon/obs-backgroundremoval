@@ -34,7 +34,7 @@ ExternalProject_Add(
   CONFIGURE_COMMAND ""
   BUILD_COMMAND
     ${PYTHON} <SOURCE_DIR>/tools/ci_build/build.py --build_dir <BINARY_DIR>
-    --config ${CMAKE_BUILD_TYPE} --parallel --skip_tests --skip_submodule_sync
+    --config ${CMAKE_BUILD_TYPE} --parallel --skip_tests
     --apple_deploy_target=${CMAKE_OSX_DEPLOYMENT_TARGET} --osx_arch
     ${CMAKE_OSX_ARCHITECTURES}
   BUILD_BYPRODUCTS
