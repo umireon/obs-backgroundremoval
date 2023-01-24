@@ -2,7 +2,7 @@ cmake_minimum_required(VERSION 3.16...3.21)
 
 # Change obs-plugintemplate to your plugin's name in a machine-readable format (e.g.:
 # obs-myawesomeplugin) and set
-project(obs-plugintemplate VERSION 0.5.0)
+project(obs-backgroundremoval VERSION 0.5.0)
 add_library(${CMAKE_PROJECT_NAME} MODULE)
 
 # Replace `Your Name Here` with the name (yours or your organization's) you want to see as the
@@ -45,6 +45,7 @@ target_sources(${CMAKE_PROJECT_NAME} PRIVATE src/plugin-macros.generated.h)
 
 set(CMAKE_MODULE_PATH "${CMAKE_MODULE_PATH};${CMAKE_SOURCE_DIR}/external")
 find_package(Onnxruntime REQUIRED)
+find_package(OpenCV 4.5 REQUIRED COMPONENTS core imgproc)
 include_directories(
 	${LIBOBS_INCLUDE_DIR}/../UI/obs-frontend-api
     ${LIBOBS_INCLUDE_DIR}
@@ -52,7 +53,10 @@ include_directories(
     ${Onnxruntime_INCLUDE_DIRS}
     ${OpenCV_INCLUDE_DIRS}
 )
-find_package(OpenCV 4.5 REQUIRED COMPONENTS core imgproc)
+target_link_libraries(${CMAKE_PROJECT_NAME} PRIVATE
+    ${Onnxruntime_LIBRARIES}
+    ${OpenCV_LIBRARIES}
+)
 
 # /!\ TAKE NOTE: No need to edit things past this point /!\
 
@@ -95,7 +99,9 @@ else()
 endif()
 # --- End of section ---
 
-# setup_plugin_target(${CMAKE_PROJECT_NAME})
+target_compile_options(${CMAKE_PROJECT_NAME} PRIVATE -Wno-error)
+
+setup_plugin_target(${CMAKE_PROJECT_NAME})
 
 
 
