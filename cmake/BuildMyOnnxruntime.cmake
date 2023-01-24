@@ -22,7 +22,6 @@ else()
   set(PYTHON python3)
 endif()
 
-
 ExternalProject_Add(
   Ort
   GIT_REPOSITORY https://github.com/microsoft/onnxruntime.git
