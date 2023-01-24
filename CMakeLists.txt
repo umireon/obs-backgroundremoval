@@ -1,22 +1,24 @@
-cmake_minimum_required(VERSION 3.10)
+cmake_minimum_required(VERSION 3.16...3.21)
 
-include(external/MunkeiVersionFromGit.cmake)
-version_from_git()
+# Change obs-plugintemplate to your plugin's name in a machine-readable format (e.g.:
+# obs-myawesomeplugin) and set
+project(obs-backgroundremoval VERSION 0.5.0)
+add_library(${CMAKE_PROJECT_NAME} MODULE)
 
-# Change obs-plugintemplate to your plugin's name in a machine-readable format
-# (e.g.: obs-myawesomeplugin) and set
-project(obs-backgroundremoval VERSION ${VERSION})
-
-# Replace `Your Name Here` with the name (yours or your organization's) you want
-# to see as the author of the plugin (in the plugin's metadata itself and in the installers)
-set(PLUGIN_AUTHOR "Roy Shilkrot")
+# Replace `Your Name Here` with the name (yours or your organization's) you want to see as the
+# author of the plugin (in the plugin's metadata itself and in the installers)
+set(PLUGIN_AUTHOR "Roy Shilkrot and Kaito Udagawa")
 
 # Replace `com.example.obs-plugin-template` with a unique Bundle ID for macOS releases
 # (used both in the installer and when submitting the installer for notarization)
-set(MACOS_BUNDLEID "com.example.obs-backgroundremoval")
+set(MACOS_BUNDLEID "tokyo.kaito.obs-backgroundremoval")
 
 # Replace `me@contoso.com` with the maintainer email address you want to put in Linux packages
-set(LINUX_MAINTAINER_EMAIL "roy.shil@gmail.com")
+set(LINUX_MAINTAINER_EMAIL "umreon@gmail.com")
+
+
+
+
 
 option(WITH_CUDA "Build with CUDA support." OFF)
 if(WITH_CUDA)
@@ -101,7 +103,7 @@ set(PLUGIN_HEADERS
 	src/plugin-macros.generated.h)
 
 # --- Platform-independent build settings ---
-add_library(${CMAKE_PROJECT_NAME} MODULE ${PLUGIN_SOURCES} ${PLUGIN_HEADERS})
+#add_library(${CMAKE_PROJECT_NAME} MODULE ${PLUGIN_SOURCES} ${PLUGIN_HEADERS})
 
 find_package(libobs REQUIRED)
 find_package(obs-frontend-api REQUIRED)
