@@ -84,7 +84,7 @@ foreach(lib_name IN LISTS Onnxruntime_EXT_LIB_NAMES)
     Onnxruntime::${lib_name}
     PROPERTIES
       IMPORTED_LOCATION
-      ${INSTALL_DIR}/${Onnxruntime_LIB_PATH}/${CMAKE_STATIC_LIBRARY_PREFIX}onnxruntime_${lib_name}${CMAKE_STATIC_LIBRARY_SUFFIX}
+      ${INSTALL_DIR}/lib/${CMAKE_STATIC_LIBRARY_PREFIX}onnxruntime_${lib_name}${CMAKE_STATIC_LIBRARY_SUFFIX}
   )
 
   target_link_libraries(Onnxruntime INTERFACE Onnxruntime::${lib_name})
@@ -99,7 +99,7 @@ foreach(lib_name IN LISTS Onnxruntime_EXTERNAL_LIB_NAMES)
     Onnxruntime::${lib_name}
     PROPERTIES
       IMPORTED_LOCATION
-      ${INSTALL_DIR}/${Onnxruntime_LIB_PATH}/${CMAKE_STATIC_LIBRARY_PREFIX}${lib_name}${CMAKE_STATIC_LIBRARY_SUFFIX}
+      ${INSTALL_DIR}/lib/${CMAKE_STATIC_LIBRARY_PREFIX}${lib_name}${CMAKE_STATIC_LIBRARY_SUFFIX}
   )
 
   target_link_libraries(Onnxruntime INTERFACE Onnxruntime::${lib_name})
