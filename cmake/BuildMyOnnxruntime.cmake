@@ -24,7 +24,7 @@ if(OS_WINDOWS)
   set(Onnxruntime_GENERATOR_OPTION --cmake_generator ${CMAKE_GENERATOR})
 else()
   set(PYTHON python3)
-  set(Onnxruntime_GENERATOR_OPTION "")
+  set(Onnxruntime_GENERATOR_OPTION --cmake_generator Ninja)
 endif()
 
 ExternalProject_Add(
@@ -35,8 +35,8 @@ ExternalProject_Add(
   BUILD_COMMAND
     ${PYTHON} <SOURCE_DIR>/tools/ci_build/build.py --build_dir <BINARY_DIR>
     --config ${CMAKE_BUILD_TYPE} --parallel --skip_tests
-    --apple_deploy_target=${CMAKE_OSX_DEPLOYMENT_TARGET} --osx_arch
-    ${CMAKE_OSX_ARCHITECTURES}
+    --apple_deploy_target ${CMAKE_OSX_DEPLOYMENT_TARGET} --osx_arch
+    ${CMAKE_OSX_ARCHITECTURES} --cmake_extra_defines onnxruntime_BUILD_UNIT_TESTS=OFF
   BUILD_BYPRODUCTS
     <INSTALL_DIR>/lib/${CMAKE_STATIC_LIBRARY_PREFIX}onnxruntime_session${CMAKE_STATIC_LIBRARY_SUFFIX}
     <INSTALL_DIR>/lib/${CMAKE_STATIC_LIBRARY_PREFIX}onnxruntime_framework${CMAKE_STATIC_LIBRARY_SUFFIX}
@@ -59,7 +59,7 @@ ExternalProject_Add(
     <INSTALL_DIR>/lib/${CMAKE_STATIC_LIBRARY_PREFIX}absl_raw_hash_set${CMAKE_STATIC_LIBRARY_SUFFIX}
   INSTALL_COMMAND
     cmake --install <BINARY_DIR>/${CMAKE_BUILD_TYPE} --config
-    ${CMAKE_BUILD_TYPE} --prefix <INSTALL_DIR> && cp
+    ${CMAKE_BUILD_TYPE} --prefix <INSTALL_DIR> && find <BINARY_DIR> && cp
     <BINARY_DIR>/${CMAKE_BUILD_TYPE}/external/onnx/${CMAKE_STATIC_LIBRARY_PREFIX}onnx${CMAKE_STATIC_LIBRARY_SUFFIX}
     <BINARY_DIR>/${CMAKE_BUILD_TYPE}/external/onnx/${CMAKE_STATIC_LIBRARY_PREFIX}onnx_proto${CMAKE_STATIC_LIBRARY_SUFFIX}
     <BINARY_DIR>/${CMAKE_BUILD_TYPE}/external/nsync/${CMAKE_STATIC_LIBRARY_PREFIX}nsync_cpp${CMAKE_STATIC_LIBRARY_SUFFIX}
