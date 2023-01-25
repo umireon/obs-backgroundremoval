@@ -50,7 +50,7 @@ ExternalProject_Add(
     <INSTALL_DIR>/lib/${CMAKE_STATIC_LIBRARY_PREFIX}onnx${CMAKE_STATIC_LIBRARY_SUFFIX}
     <INSTALL_DIR>/lib/${CMAKE_STATIC_LIBRARY_PREFIX}onnx_proto${CMAKE_STATIC_LIBRARY_SUFFIX}
     <INSTALL_DIR>/lib/${CMAKE_STATIC_LIBRARY_PREFIX}nsync_cpp${CMAKE_STATIC_LIBRARY_SUFFIX}
-    <INSTALL_DIR>/lib/${CMAKE_STATIC_LIBRARY_PREFIX}protobuf${CMAKE_STATIC_LIBRARY_SUFFIX}
+    <INSTALL_DIR>/lib/${CMAKE_STATIC_LIBRARY_PREFIX}protobuf-lite${CMAKE_STATIC_LIBRARY_SUFFIX}
     <INSTALL_DIR>/lib/${CMAKE_STATIC_LIBRARY_PREFIX}re2${CMAKE_STATIC_LIBRARY_SUFFIX}
     <INSTALL_DIR>/lib/${CMAKE_STATIC_LIBRARY_PREFIX}absl_throw_delegate${CMAKE_STATIC_LIBRARY_SUFFIX}
     <INSTALL_DIR>/lib/${CMAKE_STATIC_LIBRARY_PREFIX}absl_hash${CMAKE_STATIC_LIBRARY_SUFFIX}
@@ -63,7 +63,7 @@ ExternalProject_Add(
     <BINARY_DIR>/${CMAKE_BUILD_TYPE}/external/onnx/${CMAKE_STATIC_LIBRARY_PREFIX}onnx${CMAKE_STATIC_LIBRARY_SUFFIX}
     <BINARY_DIR>/${CMAKE_BUILD_TYPE}/external/onnx/${CMAKE_STATIC_LIBRARY_PREFIX}onnx_proto${CMAKE_STATIC_LIBRARY_SUFFIX}
     <BINARY_DIR>/${CMAKE_BUILD_TYPE}/external/nsync/${CMAKE_STATIC_LIBRARY_PREFIX}nsync_cpp${CMAKE_STATIC_LIBRARY_SUFFIX}
-    <BINARY_DIR>/${CMAKE_BUILD_TYPE}/external/protobuf/cmake/${CMAKE_STATIC_LIBRARY_PREFIX}protobuf${CMAKE_STATIC_LIBRARY_SUFFIX}
+    <BINARY_DIR>/${CMAKE_BUILD_TYPE}/external/protobuf/cmake/${CMAKE_STATIC_LIBRARY_PREFIX}protobuf-lite${CMAKE_STATIC_LIBRARY_SUFFIX}
     <BINARY_DIR>/${CMAKE_BUILD_TYPE}/external/re2/${CMAKE_STATIC_LIBRARY_PREFIX}re2${CMAKE_STATIC_LIBRARY_SUFFIX}
     <BINARY_DIR>/${CMAKE_BUILD_TYPE}/external/abseil-cpp/absl/base/${CMAKE_STATIC_LIBRARY_PREFIX}absl_throw_delegate${CMAKE_STATIC_LIBRARY_SUFFIX}
     <BINARY_DIR>/${CMAKE_BUILD_TYPE}/external/abseil-cpp/absl/hash/${CMAKE_STATIC_LIBRARY_PREFIX}absl_hash${CMAKE_STATIC_LIBRARY_SUFFIX}
@@ -98,7 +98,7 @@ foreach(lib_name IN LISTS Onnxruntime_EXT_LIB_NAMES)
 endforeach()
 
 set(Onnxruntime_EXTERNAL_LIB_NAMES
-    onnx;onnx_proto;nsync_cpp;protobuf;re2;absl_throw_delegate;absl_hash;absl_city;absl_low_level_hash;absl_raw_hash_set
+    onnx;onnx_proto;nsync_cpp;protobuf-lite;re2;absl_throw_delegate;absl_hash;absl_city;absl_low_level_hash;absl_raw_hash_set
 )
 foreach(lib_name IN LISTS Onnxruntime_EXTERNAL_LIB_NAMES)
   add_library(Onnxruntime::${lib_name} STATIC IMPORTED)
