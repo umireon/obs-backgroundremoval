@@ -113,11 +113,8 @@ if(OS_WINDOWS)
       onnx;onnx_proto;libprotobuf-lite;re2;absl_throw_delegate;absl_hash;absl_city;absl_low_level_hash;absl_raw_hash_set
   )
 else()
-  # set(Onnxruntime_EXTERNAL_LIB_NAMES
-  # onnx;onnx_proto;nsync_cpp;protobuf-lite;re2;absl_throw_delegate;absl_hash;absl_city;absl_low_level_hash;absl_raw_hash_set
-  # )
   set(Onnxruntime_EXTERNAL_LIB_NAMES
-      onnx;onnx_proto;protobuf-lite;absl_throw_delegate;absl_hash;absl_city;absl_low_level_hash;absl_raw_hash_set
+      onnx;onnx_proto;nsync_cpp;protobuf-lite;re2;absl_throw_delegate;absl_hash;absl_city;absl_low_level_hash;absl_raw_hash_set
   )
 endif()
 foreach(lib_name IN LISTS Onnxruntime_EXTERNAL_LIB_NAMES)
