@@ -16,6 +16,7 @@ if(OS_WINDOWS)
   set(Onnxruntime_NSYNC_BYPRODUCT "")
   set(Onnxruntime_NSYNC_INSTALL "")
   set(Onnxruntime_PROTOBUF_PREFIX lib)
+  set(CP copy)
 elseif(OS_MACOS)
   set(PYTHON python3)
   set(Onnxruntime_GENERATOR_OPTION --cmake_generator Ninja)
@@ -29,6 +30,7 @@ elseif(OS_MACOS)
       <BINARY_DIR>/${CMAKE_BUILD_TYPE}/external/nsync/${Onnxruntime_LIB_PREFIX}/${CMAKE_STATIC_LIBRARY_PREFIX}nsync_cpp${CMAKE_STATIC_LIBRARY_SUFFIX}
   )
   set(Onnxruntime_PROTOBUF_PREFIX ${CMAKE_STATIC_LIBRARY_PREFIX})
+  set(CP cp)
 endif()
 
 ExternalProject_Add(
@@ -62,7 +64,7 @@ ExternalProject_Add(
     ${Onnxruntime_NSYNC_BYPRODUCT}
   INSTALL_COMMAND
     cmake --install <BINARY_DIR>/${CMAKE_BUILD_TYPE} --config
-    ${CMAKE_BUILD_TYPE} --prefix <INSTALL_DIR> && cp
+    ${CMAKE_BUILD_TYPE} --prefix <INSTALL_DIR> && ${CP}
     <BINARY_DIR>/${CMAKE_BUILD_TYPE}/external/onnx/${Onnxruntime_LIB_PREFIX}/${CMAKE_STATIC_LIBRARY_PREFIX}onnx${CMAKE_STATIC_LIBRARY_SUFFIX}
     <BINARY_DIR>/${CMAKE_BUILD_TYPE}/external/onnx/${Onnxruntime_LIB_PREFIX}/${CMAKE_STATIC_LIBRARY_PREFIX}onnx_proto${CMAKE_STATIC_LIBRARY_SUFFIX}
     <BINARY_DIR>/${CMAKE_BUILD_TYPE}/external/protobuf/cmake/${Onnxruntime_LIB_PREFIX}/libprotobuf-lite${CMAKE_STATIC_LIBRARY_SUFFIX}
