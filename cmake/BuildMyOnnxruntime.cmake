@@ -105,9 +105,15 @@ foreach(lib_name IN LISTS Onnxruntime_EXT_LIB_NAMES)
   target_link_libraries(Onnxruntime INTERFACE Onnxruntime::${lib_name})
 endforeach()
 
-set(Onnxruntime_EXTERNAL_LIB_NAMES
-    onnx;onnx_proto;nsync_cpp;protobuf-lite;re2;absl_throw_delegate;absl_hash;absl_city;absl_low_level_hash;absl_raw_hash_set
-)
+if(OS_WINDOWS)
+  set(Onnxruntime_EXTERNAL_LIB_NAMES
+      onnx;onnx_proto;protobuf-lite;re2;absl_throw_delegate;absl_hash;absl_city;absl_low_level_hash;absl_raw_hash_set
+  )
+else()
+  set(Onnxruntime_EXTERNAL_LIB_NAMES
+      onnx;onnx_proto;nsync_cpp;protobuf-lite;re2;absl_throw_delegate;absl_hash;absl_city;absl_low_level_hash;absl_raw_hash_set
+  )
+endif()
 foreach(lib_name IN LISTS Onnxruntime_EXTERNAL_LIB_NAMES)
   add_library(Onnxruntime::${lib_name} STATIC IMPORTED)
   set_target_properties(

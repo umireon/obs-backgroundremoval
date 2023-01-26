@@ -1,5 +1,7 @@
 cmake_minimum_required(VERSION 3.16...3.21)
 
+set(CMAKE_CXX_STANDARD 20)
+
 # Change obs-plugintemplate to your plugin's name in a machine-readable format
 # (e.g.: obs-myawesomeplugin) and set
 project(obs-backgroundremoval VERSION 0.5.5)
@@ -48,7 +50,6 @@ configure_file(src/plugin-macros.h.in
 
 target_sources(${CMAKE_PROJECT_NAME} PRIVATE src/plugin-macros.generated.h)
 
-set(CMAKE_CXX_STANDARD 20)
 include(cmake/BuildMyOpenCV.cmake)
 include(cmake/BuildMyOnnxruntime.cmake)
 target_link_libraries(${CMAKE_PROJECT_NAME} PRIVATE Onnxruntime OpenCV)
