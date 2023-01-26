@@ -101,8 +101,6 @@ else()
 endif()
 # --- End of section ---
 
-target_compile_options(${CMAKE_PROJECT_NAME} PRIVATE -Wno-error)
-
 setup_plugin_target(${CMAKE_PROJECT_NAME})
 
 # option(WITH_CUDA "Build with CUDA support." OFF) if(WITH_CUDA)
