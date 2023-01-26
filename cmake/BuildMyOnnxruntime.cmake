@@ -13,7 +13,7 @@ if(OS_WINDOWS)
   set(CP copy)
   set(PYTHON python)
   set(Onnxruntime_PLATFORM_OPTIONS --cmake_generator ${CMAKE_GENERATOR}
-                                   --dml_external_project)
+                                   --use_dml --dml_external_project)
   set(Onnxruntime_NSYNC_BYPRODUCT "")
   set(Onnxruntime_NSYNC_INSTALL "")
   set(Onnxruntime_PROTOBUF_PREFIX lib)
