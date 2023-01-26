@@ -15,7 +15,7 @@ if(OS_WINDOWS)
   set(Onnxruntime_GENERATOR_OPTION --cmake_generator ${CMAKE_GENERATOR})
   set(Onnxruntime_APPLE_OPTIONS "")
   set(Onnxruntime_NSYNC_BYPRODUCT "")
-  set(Onnxruntime_NSYNC_INSTALL "cd .")
+  set(Onnxruntime_NSYNC_INSTALL "")
   set(Onnxruntime_PROTOBUF_PREFIX lib)
 elseif(OS_MACOS)
   set(CP cp)
@@ -28,9 +28,8 @@ elseif(OS_MACOS)
       <INSTALL_DIR>/lib/${CMAKE_STATIC_LIBRARY_PREFIX}nsync_cpp${CMAKE_STATIC_LIBRARY_SUFFIX}
   )
   set(Onnxruntime_NSYNC_BINARY
-      ${CP}
       <BINARY_DIR>/${CMAKE_BUILD_TYPE}/external/nsync/${Onnxruntime_LIB_PREFIX}/${CMAKE_STATIC_LIBRARY_PREFIX}nsync_cpp${CMAKE_STATIC_LIBRARY_SUFFIX}
-      <INSTALL_DIR>/lib)
+  )
   set(Onnxruntime_PROTOBUF_PREFIX ${CMAKE_STATIC_LIBRARY_PREFIX})
 endif()
 
@@ -64,26 +63,18 @@ ExternalProject_Add(
     <INSTALL_DIR>/lib/${CMAKE_STATIC_LIBRARY_PREFIX}absl_raw_hash_set${CMAKE_STATIC_LIBRARY_SUFFIX}
     ${Onnxruntime_NSYNC_BYPRODUCT}
   INSTALL_COMMAND
-    cmake --install <BINARY_DIR>/${CMAKE_BUILD_TYPE} --config
-    ${CMAKE_BUILD_TYPE} --prefix <INSTALL_DIR> && ${CP}
+    ${CMAKE_COMMAND} --install <BINARY_DIR>/${CMAKE_BUILD_TYPE} --config
+    ${CMAKE_BUILD_TYPE} --prefix <INSTALL_DIR> && ${CMAKE_COMMAND} -E copy
     <BINARY_DIR>/${CMAKE_BUILD_TYPE}/external/onnx/${Onnxruntime_LIB_PREFIX}/${CMAKE_STATIC_LIBRARY_PREFIX}onnx${CMAKE_STATIC_LIBRARY_SUFFIX}
-    <INSTALL_DIR>/lib && ${CP}
     <BINARY_DIR>/${CMAKE_BUILD_TYPE}/external/onnx/${Onnxruntime_LIB_PREFIX}/${CMAKE_STATIC_LIBRARY_PREFIX}onnx_proto${CMAKE_STATIC_LIBRARY_SUFFIX}
-    <INSTALL_DIR>/lib && ${CP}
     <BINARY_DIR>/${CMAKE_BUILD_TYPE}/external/protobuf/cmake/${Onnxruntime_LIB_PREFIX}/libprotobuf-lite${CMAKE_STATIC_LIBRARY_SUFFIX}
-    <INSTALL_DIR>/lib && ${CP}
     <BINARY_DIR>/${CMAKE_BUILD_TYPE}/external/re2/${Onnxruntime_LIB_PREFIX}/${CMAKE_STATIC_LIBRARY_PREFIX}re2${CMAKE_STATIC_LIBRARY_SUFFIX}
-    <INSTALL_DIR>/lib && ${CP}
     <BINARY_DIR>/${CMAKE_BUILD_TYPE}/external/abseil-cpp/absl/base/${Onnxruntime_LIB_PREFIX}/${CMAKE_STATIC_LIBRARY_PREFIX}absl_throw_delegate${CMAKE_STATIC_LIBRARY_SUFFIX}
-    <INSTALL_DIR>/lib && ${CP}
     <BINARY_DIR>/${CMAKE_BUILD_TYPE}/external/abseil-cpp/absl/hash/${Onnxruntime_LIB_PREFIX}/${CMAKE_STATIC_LIBRARY_PREFIX}absl_hash${CMAKE_STATIC_LIBRARY_SUFFIX}
-    <INSTALL_DIR>/lib && ${CP}
     <BINARY_DIR>/${CMAKE_BUILD_TYPE}/external/abseil-cpp/absl/hash/${Onnxruntime_LIB_PREFIX}/${CMAKE_STATIC_LIBRARY_PREFIX}absl_city${CMAKE_STATIC_LIBRARY_SUFFIX}
-    <INSTALL_DIR>/lib && ${CP}
     <BINARY_DIR>/${CMAKE_BUILD_TYPE}/external/abseil-cpp/absl/hash/${Onnxruntime_LIB_PREFIX}/${CMAKE_STATIC_LIBRARY_PREFIX}absl_low_level_hash${CMAKE_STATIC_LIBRARY_SUFFIX}
-    <INSTALL_DIR>/lib && ${CP}
     <BINARY_DIR>/${CMAKE_BUILD_TYPE}/external/abseil-cpp/absl/container/${Onnxruntime_LIB_PREFIX}/${CMAKE_STATIC_LIBRARY_PREFIX}absl_raw_hash_set${CMAKE_STATIC_LIBRARY_SUFFIX}
-    <INSTALL_DIR>/lib && ${Onnxruntime_NSYNC_BINARY})
+    ${Onnxruntime_NSYNC_BINARY} <INSTALL_DIR>/lib)
 
 ExternalProject_Get_Property(Ort INSTALL_DIR)
 
