@@ -10,18 +10,17 @@ else()
 endif()
 
 if(OS_WINDOWS)
-  set(CP copy)
   set(PYTHON python)
-  set(Onnxruntime_PLATFORM_OPTIONS --cmake_generator ${CMAKE_GENERATOR})
+  set(Onnxruntime_PLATFORM_OPTIONS "")
   set(Onnxruntime_NSYNC_BYPRODUCT "")
   set(Onnxruntime_NSYNC_INSTALL "")
   set(Onnxruntime_PROTOBUF_PREFIX lib)
+  set(Onnxruntime_CMAKE_BINARY_DIR <BINARY_DIR>/${CMAKE_BUILD_TYPE})
 elseif(OS_MACOS)
-  set(CP cp)
   set(PYTHON python3)
   set(Onnxruntime_PLATFORM_OPTIONS
-      --cmake_generator Ninja --apple_deploy_target
-      ${CMAKE_OSX_DEPLOYMENT_TARGET} --osx_arch ${CMAKE_OSX_ARCHITECTURES})
+      -DCMAKE_OSX_DEPLOYMENT_TARGET=${CMAKE_OSX_DEPLOYMENT_TARGET}
+      -DCMAKE_OSX_ARCHITECTURES=${CMAKE_OSX_ARCHITECTURES_})
   set(Onnxruntime_NSYNC_BYPRODUCT
       <INSTALL_DIR>/lib/${CMAKE_STATIC_LIBRARY_PREFIX}nsync_cpp${CMAKE_STATIC_LIBRARY_SUFFIX}
   )
@@ -29,17 +28,18 @@ elseif(OS_MACOS)
       <BINARY_DIR>/${CMAKE_BUILD_TYPE}/external/nsync/${Onnxruntime_LIB_PREFIX}/${CMAKE_STATIC_LIBRARY_PREFIX}nsync_cpp${CMAKE_STATIC_LIBRARY_SUFFIX}
   )
   set(Onnxruntime_PROTOBUF_PREFIX ${CMAKE_STATIC_LIBRARY_PREFIX})
+  set(Onnxruntime_CMAKE_BINARY_DIR <BINARY_DIR>)
 endif()
 
 ExternalProject_Add(
   Ort
   GIT_REPOSITORY https://github.com/microsoft/onnxruntime.git
   GIT_TAG v1.13.1
-  CONFIGURE_COMMAND ""
-  BUILD_COMMAND
-    ${PYTHON} <SOURCE_DIR>/tools/ci_build/build.py --build_dir <BINARY_DIR>
-    --config ${CMAKE_BUILD_TYPE} --parallel --skip_tests
-    ${Onnxruntime_PLATFORM_OPTIONS}
+  CONFIGURE_COMMAND
+    ${CMAKE_COMMAND} CMAKE_ARG -S <SOURCE_DIR>/cmake -B <BINARY_DIR> -G
+    ${CMAKE_GENERATOR} -DCMAKE_INSTALL_PREFIX=<INSTALL_DIR>
+    -DCMAKE_BUILD_TYPE=${CMAKE_BUILD_TYPE} -Donnxruntime_RUN_ONNX_TESTS=OFF
+    -Donnxruntime_GENERATE_TEST_REPORTS=OFF ${Onnxruntime_PLATFORM_OPTIONS}
   BUILD_BYPRODUCTS
     <INSTALL_DIR>/lib/${CMAKE_STATIC_LIBRARY_PREFIX}onnxruntime_session${CMAKE_STATIC_LIBRARY_SUFFIX}
     <INSTALL_DIR>/lib/${CMAKE_STATIC_LIBRARY_PREFIX}onnxruntime_framework${CMAKE_STATIC_LIBRARY_SUFFIX}
@@ -61,17 +61,17 @@ ExternalProject_Add(
     <INSTALL_DIR>/lib/${CMAKE_STATIC_LIBRARY_PREFIX}absl_raw_hash_set${CMAKE_STATIC_LIBRARY_SUFFIX}
     ${Onnxruntime_NSYNC_BYPRODUCT}
   INSTALL_COMMAND
-    ${CMAKE_COMMAND} --install <BINARY_DIR>/${CMAKE_BUILD_TYPE} --config
+    ${CMAKE_COMMAND} --install ${Onnxruntime_CMAKE_BINARY_DIR} --config
     ${CMAKE_BUILD_TYPE} --prefix <INSTALL_DIR> && ${CMAKE_COMMAND} -E copy
-    <BINARY_DIR>/${CMAKE_BUILD_TYPE}/external/onnx/${Onnxruntime_LIB_PREFIX}/${CMAKE_STATIC_LIBRARY_PREFIX}onnx${CMAKE_STATIC_LIBRARY_SUFFIX}
-    <BINARY_DIR>/${CMAKE_BUILD_TYPE}/external/onnx/${Onnxruntime_LIB_PREFIX}/${CMAKE_STATIC_LIBRARY_PREFIX}onnx_proto${CMAKE_STATIC_LIBRARY_SUFFIX}
-    <BINARY_DIR>/${CMAKE_BUILD_TYPE}/external/protobuf/cmake/${Onnxruntime_LIB_PREFIX}/libprotobuf-lite${CMAKE_STATIC_LIBRARY_SUFFIX}
-    <BINARY_DIR>/${CMAKE_BUILD_TYPE}/external/re2/${Onnxruntime_LIB_PREFIX}/${CMAKE_STATIC_LIBRARY_PREFIX}re2${CMAKE_STATIC_LIBRARY_SUFFIX}
-    <BINARY_DIR>/${CMAKE_BUILD_TYPE}/external/abseil-cpp/absl/base/${Onnxruntime_LIB_PREFIX}/${CMAKE_STATIC_LIBRARY_PREFIX}absl_throw_delegate${CMAKE_STATIC_LIBRARY_SUFFIX}
-    <BINARY_DIR>/${CMAKE_BUILD_TYPE}/external/abseil-cpp/absl/hash/${Onnxruntime_LIB_PREFIX}/${CMAKE_STATIC_LIBRARY_PREFIX}absl_hash${CMAKE_STATIC_LIBRARY_SUFFIX}
-    <BINARY_DIR>/${CMAKE_BUILD_TYPE}/external/abseil-cpp/absl/hash/${Onnxruntime_LIB_PREFIX}/${CMAKE_STATIC_LIBRARY_PREFIX}absl_city${CMAKE_STATIC_LIBRARY_SUFFIX}
-    <BINARY_DIR>/${CMAKE_BUILD_TYPE}/external/abseil-cpp/absl/hash/${Onnxruntime_LIB_PREFIX}/${CMAKE_STATIC_LIBRARY_PREFIX}absl_low_level_hash${CMAKE_STATIC_LIBRARY_SUFFIX}
-    <BINARY_DIR>/${CMAKE_BUILD_TYPE}/external/abseil-cpp/absl/container/${Onnxruntime_LIB_PREFIX}/${CMAKE_STATIC_LIBRARY_PREFIX}absl_raw_hash_set${CMAKE_STATIC_LIBRARY_SUFFIX}
+    <BINARY_DIR>/${Onnxruntime_LIB_PREFIX}/external/onnx/${Onnxruntime_LIB_PREFIX}/${CMAKE_STATIC_LIBRARY_PREFIX}onnx${CMAKE_STATIC_LIBRARY_SUFFIX}
+    <BINARY_DIR>/${Onnxruntime_LIB_PREFIX}/external/onnx/${Onnxruntime_LIB_PREFIX}/${CMAKE_STATIC_LIBRARY_PREFIX}onnx_proto${CMAKE_STATIC_LIBRARY_SUFFIX}
+    <BINARY_DIR>/${Onnxruntime_LIB_PREFIX}/external/protobuf/cmake/${Onnxruntime_LIB_PREFIX}/libprotobuf-lite${CMAKE_STATIC_LIBRARY_SUFFIX}
+    <BINARY_DIR>/${Onnxruntime_LIB_PREFIX}/external/re2/${Onnxruntime_LIB_PREFIX}/${CMAKE_STATIC_LIBRARY_PREFIX}re2${CMAKE_STATIC_LIBRARY_SUFFIX}
+    <BINARY_DIR>/${Onnxruntime_LIB_PREFIX}/external/abseil-cpp/absl/base/${Onnxruntime_LIB_PREFIX}/${CMAKE_STATIC_LIBRARY_PREFIX}absl_throw_delegate${CMAKE_STATIC_LIBRARY_SUFFIX}
+    <BINARY_DIR>/${Onnxruntime_LIB_PREFIX}/external/abseil-cpp/absl/hash/${Onnxruntime_LIB_PREFIX}/${CMAKE_STATIC_LIBRARY_PREFIX}absl_hash${CMAKE_STATIC_LIBRARY_SUFFIX}
+    <BINARY_DIR>/${Onnxruntime_LIB_PREFIX}/external/abseil-cpp/absl/hash/${Onnxruntime_LIB_PREFIX}/${CMAKE_STATIC_LIBRARY_PREFIX}absl_city${CMAKE_STATIC_LIBRARY_SUFFIX}
+    <BINARY_DIR>/${Onnxruntime_LIB_PREFIX}/external/abseil-cpp/absl/hash/${Onnxruntime_LIB_PREFIX}/${CMAKE_STATIC_LIBRARY_PREFIX}absl_low_level_hash${CMAKE_STATIC_LIBRARY_SUFFIX}
+    <BINARY_DIR>/${Onnxruntime_LIB_PREFIX}/external/abseil-cpp/absl/container/${Onnxruntime_LIB_PREFIX}/${CMAKE_STATIC_LIBRARY_PREFIX}absl_raw_hash_set${CMAKE_STATIC_LIBRARY_SUFFIX}
     ${Onnxruntime_NSYNC_BINARY} <INSTALL_DIR>/lib)
 
 ExternalProject_Get_Property(Ort INSTALL_DIR)
@@ -113,8 +113,11 @@ if(OS_WINDOWS)
       onnx;onnx_proto;libprotobuf-lite;re2;absl_throw_delegate;absl_hash;absl_city;absl_low_level_hash;absl_raw_hash_set
   )
 else()
+  # set(Onnxruntime_EXTERNAL_LIB_NAMES
+  # onnx;onnx_proto;nsync_cpp;protobuf-lite;re2;absl_throw_delegate;absl_hash;absl_city;absl_low_level_hash;absl_raw_hash_set
+  # )
   set(Onnxruntime_EXTERNAL_LIB_NAMES
-      onnx;onnx_proto;nsync_cpp;protobuf-lite;re2;absl_throw_delegate;absl_hash;absl_city;absl_low_level_hash;absl_raw_hash_set
+      onnx;onnx_proto;protobuf-lite;absl_throw_delegate;absl_hash;absl_city;absl_low_level_hash;absl_raw_hash_set
   )
 endif()
 foreach(lib_name IN LISTS Onnxruntime_EXTERNAL_LIB_NAMES)
