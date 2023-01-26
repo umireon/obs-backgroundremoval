@@ -12,18 +12,17 @@ endif()
 if(OS_WINDOWS)
   set(CP copy)
   set(PYTHON python)
-  set(Onnxruntime_GENERATOR_OPTION --cmake_generator ${CMAKE_GENERATOR})
-  set(Onnxruntime_PLATFORM_OPTIONS "")
+  set(Onnxruntime_PLATFORM_OPTIONS --cmake_generator ${CMAKE_GENERATOR}
+                                   --dml_external_project)
   set(Onnxruntime_NSYNC_BYPRODUCT "")
   set(Onnxruntime_NSYNC_INSTALL "")
   set(Onnxruntime_PROTOBUF_PREFIX lib)
 elseif(OS_MACOS)
   set(CP cp)
   set(PYTHON python3)
-  set(Onnxruntime_GENERATOR_OPTION --cmake_generator Ninja)
   set(Onnxruntime_PLATFORM_OPTIONS
-      --apple_deploy_target ${CMAKE_OSX_DEPLOYMENT_TARGET} --osx_arch
-      ${CMAKE_OSX_ARCHITECTURES})
+      --cmake_generator Ninja --apple_deploy_target
+      ${CMAKE_OSX_DEPLOYMENT_TARGET} --osx_arch ${CMAKE_OSX_ARCHITECTURES})
   set(Onnxruntime_NSYNC_BYPRODUCT
       <INSTALL_DIR>/lib/${CMAKE_STATIC_LIBRARY_PREFIX}nsync_cpp${CMAKE_STATIC_LIBRARY_SUFFIX}
   )
@@ -41,7 +40,7 @@ ExternalProject_Add(
   BUILD_COMMAND
     ${PYTHON} <SOURCE_DIR>/tools/ci_build/build.py --build_dir <BINARY_DIR>
     --config ${CMAKE_BUILD_TYPE} --parallel --skip_tests
-    ${Onnxruntime_GENERATOR_OPTION} ${Onnxruntime_PLATFORM_OPTIONS}
+    ${Onnxruntime_PLATFORM_OPTIONS}
   BUILD_BYPRODUCTS
     <INSTALL_DIR>/lib/${CMAKE_STATIC_LIBRARY_PREFIX}onnxruntime_session${CMAKE_STATIC_LIBRARY_SUFFIX}
     <INSTALL_DIR>/lib/${CMAKE_STATIC_LIBRARY_PREFIX}onnxruntime_framework${CMAKE_STATIC_LIBRARY_SUFFIX}
