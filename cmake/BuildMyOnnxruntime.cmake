@@ -93,10 +93,10 @@ endif()
 
 if(OS_WINDOWS)
   set(Onnxruntime_LIB_NAMES
-    session;framework;mlas;common;graph;providers;optimizer;util;flatbuffers)
+      session;framework;mlas;common;graph;providers;optimizer;util;flatbuffers)
 else()
   set(Onnxruntime_LIB_NAMES
-    session;framework;mlas;common;graph;providers;optimizer;util;flatbuffers)
+      session;framework;mlas;common;graph;providers;optimizer;util;flatbuffers)
 endif()
 foreach(lib_name IN LISTS Onnxruntime_LIB_NAMES)
   add_library(Onnxruntime::${lib_name} STATIC IMPORTED)
