@@ -65,7 +65,7 @@ ExternalProject_Add(
     <INSTALL_DIR>/include
     ${Onnxruntime_NSYNC_BYPRODUCT}
   INSTALL_COMMAND
-    ${CMAKE_COMMAND} --install ${Onnxruntime_CMAKE_BINARY_DIR} --config
+    ${CMAKE_COMMAND} --install ${Onnxruntime_CMAKE_BINARY_DIR}/${CMAKE_BUILD_TYPE} --config
     ${CMAKE_BUILD_TYPE} --prefix <INSTALL_DIR>
     # && ${CMAKE_COMMAND} -E copy
     # <BINARY_DIR>/${Onnxruntime_LIB_PREFIX}/external/onnx/${Onnxruntime_LIB_PREFIX}/${CMAKE_STATIC_LIBRARY_PREFIX}onnx${CMAKE_STATIC_LIBRARY_SUFFIX}
