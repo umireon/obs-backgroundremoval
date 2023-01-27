@@ -41,8 +41,8 @@ ExternalProject_Add(
   BUILD_COMMAND
     ${Python3_EXECUTABLE} <SOURCE_DIR>/tools/ci_build/build.py --build_dir
     <BINARY_DIR> --config ${CMAKE_BUILD_TYPE} --parallel --skip_tests
-    ${Onnxruntime_PLATFORM_OPTIONS} --build_shared_lib
-    --cmake_extra_defines onnxruntime_BUILD_UNIT_TESTS=OFF
+    ${Onnxruntime_PLATFORM_OPTIONS} --build_shared_lib --cmake_extra_defines
+    onnxruntime_BUILD_UNIT_TESTS=OFF
   BUILD_BYPRODUCTS
     <INSTALL_DIR>/lib/${CMAKE_STATIC_LIBRARY_PREFIX}onnxruntime_session${CMAKE_STATIC_LIBRARY_SUFFIX}
     <INSTALL_DIR>/lib/${CMAKE_STATIC_LIBRARY_PREFIX}onnxruntime_framework${CMAKE_STATIC_LIBRARY_SUFFIX}
