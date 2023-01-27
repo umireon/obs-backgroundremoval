@@ -62,6 +62,7 @@ ExternalProject_Add(
     <INSTALL_DIR>/lib/${CMAKE_STATIC_LIBRARY_PREFIX}absl_low_level_hash${CMAKE_STATIC_LIBRARY_SUFFIX}
     <INSTALL_DIR>/lib/${CMAKE_STATIC_LIBRARY_PREFIX}absl_raw_hash_set${CMAKE_STATIC_LIBRARY_SUFFIX}
     <INSTALL_DIR>/lib/${CMAKE_SHARED_LIBRARY_PREFIX}onnxruntime.1.13.1${CMAKE_SHARED_LIBRARY_SUFFIX}
+    <INSTALL_DIR>/include
     ${Onnxruntime_NSYNC_BYPRODUCT}
   INSTALL_COMMAND
     ${CMAKE_COMMAND} --install ${Onnxruntime_CMAKE_BINARY_DIR} --config
@@ -79,7 +80,7 @@ ExternalProject_Add(
 
 ExternalProject_Get_Property(Ort INSTALL_DIR)
 
-add_library(Onnxruntime SHARED IMPORTED)
+add_library(Onnxruntime INTERFACE)
 add_dependencies(Onnxruntime Ort)
 target_include_directories(
   Onnxruntime
@@ -89,12 +90,15 @@ target_include_directories(
 if(OS_MACOS)
   target_link_libraries(Onnxruntime INTERFACE "-framework Foundation")
 endif()
+
+add_library(Onnxruntime::Onnxruntime SHARED IMPORTED)
 set_target_properties(
-  Onnxruntime
+  Onnxruntime::Onnxruntime
   PROPERTIES
     IMPORTED_LOCATION
     ${INSTALL_DIR}/lib/${CMAKE_SHARED_LIBRARY_PREFIX}onnxruntime.1.13.1${CMAKE_SHARED_LIBRARY_SUFFIX}
 )
+target_link_libraries(Onnxruntime INTERFACE Onnxruntime::Onnxruntime)
 
 # if(OS_WINDOWS) set(Onnxruntime_LIB_NAMES
 # session;framework;mlas;common;graph;providers;optimizer;util;flatbuffers)

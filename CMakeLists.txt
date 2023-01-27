@@ -54,7 +54,7 @@ include(cmake/BuildMyOpenCV.cmake)
 include(cmake/BuildMyOnnxruntime.cmake)
 target_link_libraries(${CMAKE_PROJECT_NAME} PRIVATE Onnxruntime OpenCV)
 if(OS_MACOS)
-  install(IMPORTED_RUNTIME_ARTIFACTS Onnxruntime DESTINATION
+  install(IMPORTED_RUNTIME_ARTIFACTS Onnxruntime::Onnxruntime DESTINATION
           ./${CMAKE_PROJECT_NAME}.plugin/Contents/Frameworks)
   add_custom_command(
     TARGET ${CMAKE_PROJECT_NAME}
