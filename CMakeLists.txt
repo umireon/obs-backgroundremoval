@@ -52,6 +52,10 @@ target_sources(${CMAKE_PROJECT_NAME} PRIVATE src/plugin-macros.generated.h)
 
 include(cmake/BuildMyOpenCV.cmake)
 include(cmake/BuildMyOnnxruntime.cmake)
+if(OS_WINDOWS)
+  install(IMPORTED_RUNTIME_ARTIFACTS Onnxruntime::DirectML
+  RUNTIME DESTINATION "${OBS_PLUGIN_DESTINATION}")
+endif()
 target_link_libraries(${CMAKE_PROJECT_NAME} PRIVATE Onnxruntime OpenCV)
 if(${CMAKE_SYSTEM_NAME} MATCHES "Darwin|iOS")
   foreach(flags CMAKE_CXX_FLAGS CMAKE_OBJC_FLAGS CMAKE_OBJCXX_FLAGS)
