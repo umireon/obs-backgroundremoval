@@ -19,8 +19,8 @@ if(OS_WINDOWS)
 elseif(OS_MACOS)
   set(PYTHON python3)
   set(Onnxruntime_PLATFORM_OPTIONS
-      --apple_deploy_target ${CMAKE_OSX_DEPLOYMENT_TARGET}
-      --osx_arch ${CMAKE_OSX_ARCHITECTURES_})
+      --apple_deploy_target ${CMAKE_OSX_DEPLOYMENT_TARGET} --osx_arch
+      ${CMAKE_OSX_ARCHITECTURES_})
   set(Onnxruntime_NSYNC_BYPRODUCT
       <INSTALL_DIR>/lib/${CMAKE_STATIC_LIBRARY_PREFIX}nsync_cpp${CMAKE_STATIC_LIBRARY_SUFFIX}
   )
@@ -38,9 +38,10 @@ ExternalProject_Add(
   GIT_REPOSITORY https://github.com/microsoft/onnxruntime.git
   GIT_TAG v1.13.1
   CONFIGURE_COMMAND ""
-  BUILD_COMMAND ${Python3_EXECUTABLE} <SOURCE_DIR>/tools/ci_build/build.py --build_dir <BINARY_DIR>
-  --config ${CMAKE_BUILD_TYPE} --parallel --skip_tests ${Onnxruntime_PLATFORM_OPTIONS}
-  --build_shared_lib
+  BUILD_COMMAND
+    ${Python3_EXECUTABLE} <SOURCE_DIR>/tools/ci_build/build.py --build_dir
+    <BINARY_DIR> --config ${CMAKE_BUILD_TYPE} --parallel --skip_tests
+    ${Onnxruntime_PLATFORM_OPTIONS} --build_shared_lib
   BUILD_BYPRODUCTS
     <INSTALL_DIR>/lib/${CMAKE_STATIC_LIBRARY_PREFIX}onnxruntime_session${CMAKE_STATIC_LIBRARY_SUFFIX}
     <INSTALL_DIR>/lib/${CMAKE_STATIC_LIBRARY_PREFIX}onnxruntime_framework${CMAKE_STATIC_LIBRARY_SUFFIX}
@@ -95,42 +96,28 @@ set_target_properties(
     ${INSTALL_DIR}/lib/${CMAKE_SHARED_LIBRARY_PREFIX}onnxruntime.1.13.1${CMAKE_SHARED_LIBRARY_SUFFIX}
 )
 
-# if(OS_WINDOWS)
-#   set(Onnxruntime_LIB_NAMES
-#       session;framework;mlas;common;graph;providers;optimizer;util;flatbuffers)
-# else()
-#   set(Onnxruntime_LIB_NAMES
-#       session;framework;mlas;common;graph;providers;optimizer;util;flatbuffers)
-# endif()
-# foreach(lib_name IN LISTS Onnxruntime_LIB_NAMES)
-#   add_library(Onnxruntime::${lib_name} STATIC IMPORTED)
-#   set_target_properties(
-#     Onnxruntime::${lib_name}
-#     PROPERTIES
-#       IMPORTED_LOCATION
-#       ${INSTALL_DIR}/lib/${CMAKE_STATIC_LIBRARY_PREFIX}onnxruntime_${lib_name}${CMAKE_STATIC_LIBRARY_SUFFIX}
-#   )
+# if(OS_WINDOWS) set(Onnxruntime_LIB_NAMES
+# session;framework;mlas;common;graph;providers;optimizer;util;flatbuffers)
+# else() set(Onnxruntime_LIB_NAMES
+# session;framework;mlas;common;graph;providers;optimizer;util;flatbuffers)
+# endif() foreach(lib_name IN LISTS Onnxruntime_LIB_NAMES)
+# add_library(Onnxruntime::${lib_name} STATIC IMPORTED) set_target_properties(
+# Onnxruntime::${lib_name} PROPERTIES IMPORTED_LOCATION
+# ${INSTALL_DIR}/lib/${CMAKE_STATIC_LIBRARY_PREFIX}onnxruntime_${lib_name}${CMAKE_STATIC_LIBRARY_SUFFIX}
+# )
 
-#   target_link_libraries(Onnxruntime INTERFACE Onnxruntime::${lib_name})
+# target_link_libraries(Onnxruntime INTERFACE Onnxruntime::${lib_name})
 # endforeach()
 
-# if(OS_WINDOWS)
-#   set(Onnxruntime_EXTERNAL_LIB_NAMES
-#       onnx;onnx_proto;libprotobuf-lite;re2;absl_throw_delegate;absl_hash;absl_city;absl_low_level_hash;absl_raw_hash_set
-#   )
-# else()
-#   set(Onnxruntime_EXTERNAL_LIB_NAMES
-#       onnx;onnx_proto;nsync_cpp;protobuf-lite;re2;absl_throw_delegate;absl_hash;absl_city;absl_low_level_hash;absl_raw_hash_set
-#   )
-# endif()
-# foreach(lib_name IN LISTS Onnxruntime_EXTERNAL_LIB_NAMES)
-#   add_library(Onnxruntime::${lib_name} STATIC IMPORTED)
-#   set_target_properties(
-#     Onnxruntime::${lib_name}
-#     PROPERTIES
-#       IMPORTED_LOCATION
-#       ${INSTALL_DIR}/lib/${CMAKE_STATIC_LIBRARY_PREFIX}${lib_name}${CMAKE_STATIC_LIBRARY_SUFFIX}
-#   )
+# if(OS_WINDOWS) set(Onnxruntime_EXTERNAL_LIB_NAMES
+# onnx;onnx_proto;libprotobuf-lite;re2;absl_throw_delegate;absl_hash;absl_city;absl_low_level_hash;absl_raw_hash_set
+# ) else() set(Onnxruntime_EXTERNAL_LIB_NAMES
+# onnx;onnx_proto;nsync_cpp;protobuf-lite;re2;absl_throw_delegate;absl_hash;absl_city;absl_low_level_hash;absl_raw_hash_set
+# ) endif() foreach(lib_name IN LISTS Onnxruntime_EXTERNAL_LIB_NAMES)
+# add_library(Onnxruntime::${lib_name} STATIC IMPORTED) set_target_properties(
+# Onnxruntime::${lib_name} PROPERTIES IMPORTED_LOCATION
+# ${INSTALL_DIR}/lib/${CMAKE_STATIC_LIBRARY_PREFIX}${lib_name}${CMAKE_STATIC_LIBRARY_SUFFIX}
+# )
 
-#   target_link_libraries(Onnxruntime INTERFACE Onnxruntime::${lib_name})
+# target_link_libraries(Onnxruntime INTERFACE Onnxruntime::${lib_name})
 # endforeach()
