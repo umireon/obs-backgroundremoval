@@ -53,6 +53,13 @@ target_sources(${CMAKE_PROJECT_NAME} PRIVATE src/plugin-macros.generated.h)
 include(cmake/BuildMyOpenCV.cmake)
 include(cmake/BuildMyOnnxruntime.cmake)
 target_link_libraries(${CMAKE_PROJECT_NAME} PRIVATE Onnxruntime OpenCV)
+if(OS_MACOS)
+  install(IMPORTED_RUNTIME_ARTIFACTS Onnxruntime DESTINATION ./${CMAKE_PROJECT_NAME}.plugin/Contents/Frameworks)
+  add_custom_command(
+    TARGET ${CMAKE_PROJECT_NAME} POST_BUILD
+    COMMAND install_name_tool -change @rpath/libonnxruntime.1.13.1.dylib @loader_path/../Frameworks/libonnxruntime.1.13.1.dylib $<TARGET_FILE:${CMAKE_PROJECT_NAME}>
+  )
+endif()
 if(${CMAKE_SYSTEM_NAME} MATCHES "Darwin|iOS")
   foreach(flags CMAKE_CXX_FLAGS CMAKE_OBJC_FLAGS CMAKE_OBJCXX_FLAGS)
     string(APPEND ${flags} " -fvisibility=hidden -fvisibility-inlines-hidden")
