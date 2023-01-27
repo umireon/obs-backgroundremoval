@@ -114,7 +114,7 @@ endforeach()
 
 if(OS_WINDOWS)
   set(Onnxruntime_EXTERNAL_LIB_NAMES
-      onnx;onnx_proto;libprotobuf-lite;re2;absl_throw_delegate;absl_hash;absl_city;absl_low_level_hash;absl_raw_hash_set
+      onnx;onnx_proto;libprotobuf-lite;re2;absl_throw_delegate;absl_hash;absl_city;absl_low_level_hash;absl_raw_hash_set;provider_shared;provider_dml
   )
 else()
   set(Onnxruntime_EXTERNAL_LIB_NAMES
