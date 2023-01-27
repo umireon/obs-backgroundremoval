@@ -95,7 +95,7 @@ endif()
 
 if(OS_WINDOWS)
   set(Onnxruntime_LIB_NAMES
-      session;framework;mlas;common;graph;providers;optimizer;util;flatbuffers;provider_shared;provider_dml)
+      session;framework;mlas;common;graph;providers;optimizer;util;flatbuffers;providers_shared;providers_dml)
 else()
   set(Onnxruntime_LIB_NAMES
       session;framework;mlas;common;graph;providers;optimizer;util;flatbuffers)
