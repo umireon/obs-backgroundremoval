@@ -143,5 +143,5 @@ if(OS_WINDOWS)
     Onnxruntime::DirectML
     PROPERTIES IMPORTED_IMPLIB ${INSTALL_DIR}/lib/DirectML.lib
   )
-  target_link_libraries(Onnxruntime INTERFACE Onnxruntime::DirectML)
+  target_link_libraries(Onnxruntime INTERFACE Onnxruntime::DirectML d3d12.lib)
 endif()
