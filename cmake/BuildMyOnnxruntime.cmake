@@ -66,17 +66,19 @@ ExternalProject_Add(
     ${Onnxruntime_NSYNC_BYPRODUCT}
   INSTALL_COMMAND
     ${CMAKE_COMMAND} --install ${Onnxruntime_CMAKE_BINARY_DIR} --config
-    ${CMAKE_BUILD_TYPE} --prefix <INSTALL_DIR> && ${CMAKE_COMMAND} -E copy
-    <BINARY_DIR>/${Onnxruntime_LIB_PREFIX}/external/onnx/${Onnxruntime_LIB_PREFIX}/${CMAKE_STATIC_LIBRARY_PREFIX}onnx${CMAKE_STATIC_LIBRARY_SUFFIX}
-    <BINARY_DIR>/${Onnxruntime_LIB_PREFIX}/external/onnx/${Onnxruntime_LIB_PREFIX}/${CMAKE_STATIC_LIBRARY_PREFIX}onnx_proto${CMAKE_STATIC_LIBRARY_SUFFIX}
-    <BINARY_DIR>/${Onnxruntime_LIB_PREFIX}/external/protobuf/cmake/${Onnxruntime_LIB_PREFIX}/libprotobuf-lite${CMAKE_STATIC_LIBRARY_SUFFIX}
-    <BINARY_DIR>/${Onnxruntime_LIB_PREFIX}/external/re2/${Onnxruntime_LIB_PREFIX}/${CMAKE_STATIC_LIBRARY_PREFIX}re2${CMAKE_STATIC_LIBRARY_SUFFIX}
-    <BINARY_DIR>/${Onnxruntime_LIB_PREFIX}/external/abseil-cpp/absl/base/${Onnxruntime_LIB_PREFIX}/${CMAKE_STATIC_LIBRARY_PREFIX}absl_throw_delegate${CMAKE_STATIC_LIBRARY_SUFFIX}
-    <BINARY_DIR>/${Onnxruntime_LIB_PREFIX}/external/abseil-cpp/absl/hash/${Onnxruntime_LIB_PREFIX}/${CMAKE_STATIC_LIBRARY_PREFIX}absl_hash${CMAKE_STATIC_LIBRARY_SUFFIX}
-    <BINARY_DIR>/${Onnxruntime_LIB_PREFIX}/external/abseil-cpp/absl/hash/${Onnxruntime_LIB_PREFIX}/${CMAKE_STATIC_LIBRARY_PREFIX}absl_city${CMAKE_STATIC_LIBRARY_SUFFIX}
-    <BINARY_DIR>/${Onnxruntime_LIB_PREFIX}/external/abseil-cpp/absl/hash/${Onnxruntime_LIB_PREFIX}/${CMAKE_STATIC_LIBRARY_PREFIX}absl_low_level_hash${CMAKE_STATIC_LIBRARY_SUFFIX}
-    <BINARY_DIR>/${Onnxruntime_LIB_PREFIX}/external/abseil-cpp/absl/container/${Onnxruntime_LIB_PREFIX}/${CMAKE_STATIC_LIBRARY_PREFIX}absl_raw_hash_set${CMAKE_STATIC_LIBRARY_SUFFIX}
-    ${Onnxruntime_NSYNC_BINARY} <INSTALL_DIR>/lib)
+    ${CMAKE_BUILD_TYPE} --prefix <INSTALL_DIR>
+    # && ${CMAKE_COMMAND} -E copy
+    # <BINARY_DIR>/${Onnxruntime_LIB_PREFIX}/external/onnx/${Onnxruntime_LIB_PREFIX}/${CMAKE_STATIC_LIBRARY_PREFIX}onnx${CMAKE_STATIC_LIBRARY_SUFFIX}
+    # <BINARY_DIR>/${Onnxruntime_LIB_PREFIX}/external/onnx/${Onnxruntime_LIB_PREFIX}/${CMAKE_STATIC_LIBRARY_PREFIX}onnx_proto${CMAKE_STATIC_LIBRARY_SUFFIX}
+    # <BINARY_DIR>/${Onnxruntime_LIB_PREFIX}/external/protobuf/cmake/${Onnxruntime_LIB_PREFIX}/libprotobuf-lite${CMAKE_STATIC_LIBRARY_SUFFIX}
+    # <BINARY_DIR>/${Onnxruntime_LIB_PREFIX}/external/re2/${Onnxruntime_LIB_PREFIX}/${CMAKE_STATIC_LIBRARY_PREFIX}re2${CMAKE_STATIC_LIBRARY_SUFFIX}
+    # <BINARY_DIR>/${Onnxruntime_LIB_PREFIX}/external/abseil-cpp/absl/base/${Onnxruntime_LIB_PREFIX}/${CMAKE_STATIC_LIBRARY_PREFIX}absl_throw_delegate${CMAKE_STATIC_LIBRARY_SUFFIX}
+    # <BINARY_DIR>/${Onnxruntime_LIB_PREFIX}/external/abseil-cpp/absl/hash/${Onnxruntime_LIB_PREFIX}/${CMAKE_STATIC_LIBRARY_PREFIX}absl_hash${CMAKE_STATIC_LIBRARY_SUFFIX}
+    # <BINARY_DIR>/${Onnxruntime_LIB_PREFIX}/external/abseil-cpp/absl/hash/${Onnxruntime_LIB_PREFIX}/${CMAKE_STATIC_LIBRARY_PREFIX}absl_city${CMAKE_STATIC_LIBRARY_SUFFIX}
+    # <BINARY_DIR>/${Onnxruntime_LIB_PREFIX}/external/abseil-cpp/absl/hash/${Onnxruntime_LIB_PREFIX}/${CMAKE_STATIC_LIBRARY_PREFIX}absl_low_level_hash${CMAKE_STATIC_LIBRARY_SUFFIX}
+    # <BINARY_DIR>/${Onnxruntime_LIB_PREFIX}/external/abseil-cpp/absl/container/${Onnxruntime_LIB_PREFIX}/${CMAKE_STATIC_LIBRARY_PREFIX}absl_raw_hash_set${CMAKE_STATIC_LIBRARY_SUFFIX}
+    # ${Onnxruntime_NSYNC_BINARY} <INSTALL_DIR>/lib
+)
 
 ExternalProject_Get_Property(Ort INSTALL_DIR)
 
