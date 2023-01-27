@@ -10,15 +10,16 @@ else()
 endif()
 
 if(OS_WINDOWS)
-  set(Onnxruntime_PLATFORM_OPTIONS --cmake_generator ${CMAKE_GENERATOR} --use_dml)
+  set(Onnxruntime_PLATFORM_OPTIONS --cmake_generator ${CMAKE_GENERATOR}
+                                   --use_dml)
   set(Onnxruntime_PLATFORM_BYPRODUCT
-    <INSTALL_DIR>/lib/DirectML.lib
-    <INSTALL_DIR>/lib/DirectML.dll
-    <INSTALL_DIR>/lib/DirectML.pdb)
+      <INSTALL_DIR>/lib/DirectML.lib <INSTALL_DIR>/lib/DirectML.dll
+      <INSTALL_DIR>/lib/DirectML.pdb)
   set(Onnxruntime_PLATFORM_INSTALL_FILES
-    <BINARY_DIR>/packages/Microsoft.AI.DirectML.1.9.1/bin/x64-win/DirectML.dll
-    <BINARY_DIR>/packages/Microsoft.AI.DirectML.1.9.1/bin/x64-win/DirectML.lib
-    <BINARY_DIR>/packages/Microsoft.AI.DirectML.1.9.1/bin/x64-win/DirectML.pdb)
+      <BINARY_DIR>/packages/Microsoft.AI.DirectML.1.9.1/bin/x64-win/DirectML.dll
+      <BINARY_DIR>/packages/Microsoft.AI.DirectML.1.9.1/bin/x64-win/DirectML.lib
+      <BINARY_DIR>/packages/Microsoft.AI.DirectML.1.9.1/bin/x64-win/DirectML.pdb
+  )
   set(Onnxruntime_PROTOBUF_PREFIX lib)
 elseif(OS_MACOS)
   set(Onnxruntime_PLATFORM_OPTIONS
@@ -41,8 +42,8 @@ ExternalProject_Add(
   GIT_TAG v1.13.1
   CONFIGURE_COMMAND ""
   BUILD_COMMAND
-    ${Python3_EXECUTABLE} <SOURCE_DIR>/tools/ci_build/build.py --build_dir <BINARY_DIR>
-    --config ${CMAKE_BUILD_TYPE} --parallel --skip_tests
+    ${Python3_EXECUTABLE} <SOURCE_DIR>/tools/ci_build/build.py --build_dir
+    <BINARY_DIR> --config ${CMAKE_BUILD_TYPE} --parallel --skip_tests
     ${Onnxruntime_PLATFORM_OPTIONS}
   BUILD_BYPRODUCTS
     <INSTALL_DIR>/lib/${CMAKE_STATIC_LIBRARY_PREFIX}onnxruntime_session${CMAKE_STATIC_LIBRARY_SUFFIX}
@@ -95,7 +96,8 @@ endif()
 
 if(OS_WINDOWS)
   set(Onnxruntime_LIB_NAMES
-      session;framework;mlas;common;graph;providers;optimizer;util;flatbuffers;providers_shared;providers_dml)
+      session;framework;mlas;common;graph;providers;optimizer;util;flatbuffers;providers_shared;providers_dml
+  )
 else()
   set(Onnxruntime_LIB_NAMES
       session;framework;mlas;common;graph;providers;optimizer;util;flatbuffers)
@@ -133,15 +135,14 @@ foreach(lib_name IN LISTS Onnxruntime_EXTERNAL_LIB_NAMES)
   target_link_libraries(Onnxruntime INTERFACE Onnxruntime::${lib_name})
 endforeach()
 
-if(OS_WINDOWS)  
+if(OS_WINDOWS)
   add_library(Onnxruntime::DirectML SHARED IMPORTED)
   set_target_properties(
-    Onnxruntime::DirectML
-    PROPERTIES IMPORTED_LOCATION ${INSTALL_DIR}/lib/DirectML.dll
-  )
+    Onnxruntime::DirectML PROPERTIES IMPORTED_LOCATION
+                                     ${INSTALL_DIR}/lib/DirectML.dll)
   set_target_properties(
-    Onnxruntime::DirectML
-    PROPERTIES IMPORTED_IMPLIB ${INSTALL_DIR}/lib/DirectML.lib
-  )
-  target_link_libraries(Onnxruntime INTERFACE Onnxruntime::DirectML d3d12.lib dxgi.lib dxguid.lib)
+    Onnxruntime::DirectML PROPERTIES IMPORTED_IMPLIB
+                                     ${INSTALL_DIR}/lib/DirectML.lib)
+  target_link_libraries(Onnxruntime INTERFACE Onnxruntime::DirectML d3d12.lib
+                                              dxgi.lib dxguid.lib)
 endif()
