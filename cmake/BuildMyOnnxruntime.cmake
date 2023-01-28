@@ -10,6 +10,7 @@ else()
 endif()
 
 if(OS_WINDOWS)
+  set(PYTHON3 python)
   set(Onnxruntime_PLATFORM_OPTIONS --cmake_generator ${CMAKE_GENERATOR}
                                    --use_dml)
   set(Onnxruntime_PLATFORM_BYPRODUCT
@@ -22,6 +23,7 @@ if(OS_WINDOWS)
   )
   set(Onnxruntime_PROTOBUF_PREFIX lib)
 elseif(OS_MACOS)
+  set(PYTHON3 python3)
   set(Onnxruntime_PLATFORM_OPTIONS
       --cmake_generator
       Ninja
@@ -42,15 +44,13 @@ elseif(OS_MACOS)
   set(Onnxruntime_PROTOBUF_PREFIX ${CMAKE_STATIC_LIBRARY_PREFIX})
 endif()
 
-find_package(Python3)
-
 ExternalProject_Add(
   Ort
   GIT_REPOSITORY https://github.com/umireon/onnxruntime.git
   GIT_TAG main
   CONFIGURE_COMMAND ""
   BUILD_COMMAND
-    ${Python3_EXECUTABLE} <SOURCE_DIR>/tools/ci_build/build.py --build_dir
+    ${PYTHON3} <SOURCE_DIR>/tools/ci_build/build.py --build_dir
     <BINARY_DIR> --config ${CMAKE_BUILD_TYPE} --parallel --skip_tests
     ${Onnxruntime_PLATFORM_OPTIONS}
   BUILD_BYPRODUCTS
