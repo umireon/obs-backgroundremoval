@@ -50,8 +50,8 @@ ExternalProject_Add(
   GIT_TAG main
   CONFIGURE_COMMAND ""
   BUILD_COMMAND
-    ${PYTHON3} <SOURCE_DIR>/tools/ci_build/build.py --build_dir
-    <BINARY_DIR> --config ${CMAKE_BUILD_TYPE} --parallel --skip_tests
+    ${PYTHON3} <SOURCE_DIR>/tools/ci_build/build.py --build_dir <BINARY_DIR>
+    --config ${CMAKE_BUILD_TYPE} --parallel --skip_tests
     ${Onnxruntime_PLATFORM_OPTIONS}
   BUILD_BYPRODUCTS
     <INSTALL_DIR>/lib/${CMAKE_STATIC_LIBRARY_PREFIX}onnxruntime_session${CMAKE_STATIC_LIBRARY_SUFFIX}
