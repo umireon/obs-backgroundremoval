@@ -38,8 +38,8 @@ find_package(Python3)
 
 ExternalProject_Add(
   Ort
-  GIT_REPOSITORY https://github.com/microsoft/onnxruntime.git
-  GIT_TAG v1.13.1
+  GIT_REPOSITORY https://github.com/umireon/onnxruntime.git
+  GIT_TAG main
   CONFIGURE_COMMAND ""
   BUILD_COMMAND
     ${Python3_EXECUTABLE} <SOURCE_DIR>/tools/ci_build/build.py --build_dir
