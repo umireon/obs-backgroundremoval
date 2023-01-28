@@ -10,8 +10,8 @@ else()
 endif()
 
 if(OS_WINDOWS)
-  set(Onnxruntime_PLATFORM_OPTIONS
-      --cmake_generator ${CMAKE_GENERATOR} --use_dml)
+  set(Onnxruntime_PLATFORM_OPTIONS --cmake_generator ${CMAKE_GENERATOR}
+                                   --use_dml)
   set(Onnxruntime_PLATFORM_BYPRODUCT
       <INSTALL_DIR>/lib/DirectML.lib <INSTALL_DIR>/lib/DirectML.dll
       <INSTALL_DIR>/lib/DirectML.pdb)
