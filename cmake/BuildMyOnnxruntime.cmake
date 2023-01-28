@@ -45,11 +45,8 @@ elseif(OS_MACOS)
 else()
   set(PYTHON3 python3)
   set(Onnxruntime_PLATFORM_OPTIONS
-      --cmake_generator
-      Ninja
-      --cmake_extra_defines
-      CMAKE_C_COMPILER_LAUNCHER=ccache
-      --cmake_extra_defines
+      --cmake_generator Ninja --cmake_extra_defines
+      CMAKE_C_COMPILER_LAUNCHER=ccache --cmake_extra_defines
       CMAKE_CXX_COMPILER_LAUNCHER=ccache)
   set(Onnxruntime_PLATFORM_BYPRODUCT
       <INSTALL_DIR>/lib/${CMAKE_STATIC_LIBRARY_PREFIX}nsync_cpp${CMAKE_STATIC_LIBRARY_SUFFIX}
