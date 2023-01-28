@@ -324,7 +324,7 @@ jobs:
           workingDirectory: ${{ github.workspace }}/plugin
           target: ${{ matrix.arch }}
           config: RelWithDebInfo
-          visualStudio: 'Ninja'
+          visualStudio: 'Visual Studio 17 2022'
 
       - name: Package Plugin
         uses: ./plugin/.github/actions/package-plugin
