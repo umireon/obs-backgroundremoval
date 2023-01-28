@@ -274,6 +274,14 @@ jobs:
           path: plugin
           submodules: recursive
 
+      - name: Setup Python
+        uses: actions/setup-python@v2
+        with:
+          python-version: "3.11"
+          architecture: "x64"
+
+      - run: dir /S C:/hostedtoolcache/windows/Python
+
       - name: Checkout obs-studio
         uses: actions/checkout@v3
         with:
