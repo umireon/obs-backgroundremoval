@@ -12,7 +12,10 @@ endif()
 if(OS_WINDOWS)
   set(CP copy)
   set(PYTHON python)
-  set(Onnxruntime_PLATFORM_OPTIONS --cmake_generator ${CMAKE_GENERATOR})
+  set(Onnxruntime_PLATFORM_OPTIONS --cmake_generator Ninja
+  CMAKE_C_COMPILER_LAUNCHER=ccache
+  --cmake_extra_defines
+  CMAKE_CXX_COMPILER_LAUNCHER=ccache)
   set(Onnxruntime_NSYNC_BYPRODUCT "")
   set(Onnxruntime_NSYNC_INSTALL "")
   set(Onnxruntime_PROTOBUF_PREFIX lib)
