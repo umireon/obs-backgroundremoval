@@ -11,7 +11,7 @@ endif()
 
 if(OS_WINDOWS)
   set(PYTHON3 python)
-  set(Onnxruntime_PLATFORM_OPTIONS --cmake_generator ${CMAKE_GENERATOR}
+  set(Onnxruntime_PLATFORM_OPTIONS --cmake_generator Ninja
                                    --use_dml)
   set(Onnxruntime_PLATFORM_BYPRODUCT
       <INSTALL_DIR>/lib/DirectML.lib <INSTALL_DIR>/lib/DirectML.dll
