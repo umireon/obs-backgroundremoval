@@ -119,7 +119,7 @@ jobs:
           restore-keys: |
             macos-${{ matrix.arch }}-ccache-plugin-
       
-      - run: ccache --p
+      - run: ccache -p
 
       - name: Check for GitHub Labels
         id: seekingTesters
