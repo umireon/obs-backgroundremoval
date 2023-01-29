@@ -294,7 +294,7 @@ jobs:
         run: |
           ccache --version
           ccache --set-config=cache_dir="${{ github.workspace }}/.ccache"
-          ccache --set-config=max_size="500M"
+          ccache --set-config=max_size="4096M"
           ccache --set-config=compression=true
           ccache -z
 
@@ -351,7 +351,7 @@ jobs:
         with:
           workingDirectory: ${{ github.workspace }}/plugin
           target: ${{ matrix.arch }}
-          config: RelWithDebInfo
+          config: Release
           visualStudio: 'Visual Studio 17 2022'
 
       - name: Package Plugin
@@ -359,7 +359,7 @@ jobs:
         with:
           workingDirectory: ${{ github.workspace }}/plugin
           target: ${{ matrix.arch }}
-          config: RelWithDebInfo
+          config: Release
 
       - name: Upload Build Artifact
         if: ${{ success() && (github.event_name != 'pull_request' || steps.seekingTesters.outputs.found == 'true') }}
