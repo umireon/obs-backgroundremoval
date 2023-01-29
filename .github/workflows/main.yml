@@ -294,7 +294,7 @@ jobs:
         run: |
           ccache --version
           ccache --set-config=cache_dir="${{ github.workspace }}/.ccache"
-          ccache --set-config=max_size="4906M"
+          ccache --set-config=max_size="500M"
           ccache --set-config=compression=true
           ccache -z
 
