@@ -281,7 +281,7 @@ jobs:
           python-version: "3.11"
           architecture: "x64"
       
-      - run: gcm ccache | fl && ccache --version && echo $ENV:Path
+      - run: choco upgrade ccache && gcm ccache | fl && ccache --version && echo $ENV:Path
 
       - name: Checkout obs-studio
         uses: actions/checkout@v3
