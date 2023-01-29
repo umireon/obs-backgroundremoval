@@ -280,8 +280,8 @@ jobs:
         with:
           python-version: "3.11"
           architecture: "x64"
-
-      - uses: ilammy/msvc-dev-cmd@v1
+      
+      - run: gcm ccache | fl && ccache --version
 
       - name: Checkout obs-studio
         uses: actions/checkout@v3
