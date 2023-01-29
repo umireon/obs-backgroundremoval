@@ -4,12 +4,14 @@ string(REPLACE ";" "$<SEMICOLON>" CMAKE_OSX_ARCHITECTURES_
                "${CMAKE_OSX_ARCHITECTURES}")
 
 if(MSVC)
+  find_program(ccache_exe ccache))
   if(${CMAKE_GENERATOR_PLATFORM} STREQUAL x64
      AND ${MSVC_VERSION} GREATER_EQUAL 1910
      AND ${MSVC_VERSION} LESS_EQUAL 1939)
     set(OpenCV_LIB_PATH x64/vc17/staticlib)
     set(OpenCV_LIB_PATH_3RD x64/vc17/staticlib)
     set(OpenCV_LIB_SUFFIX 470)
+    set(OpenCV_INSTALL_CCACHE ${CMAKE_COMMAND} -E copy ${ccache_exe} <BINARY_DIR>)
   else()
     message(FATAL_ERROR "Unsupported MSVC!")
   endif()
@@ -17,6 +19,7 @@ else()
   set(OpenCV_LIB_PATH lib)
   set(OpenCV_LIB_PATH_3RD lib/opencv4/3rdparty)
   set(OpenCV_LIB_SUFFIX "")
+  set(OpenCV_INSTALL_CCACHE ":")
 endif()
 
 if(${CMAKE_BUILD_TYPE} STREQUAL Release OR ${CMAKE_BUILD_TYPE} STREQUAL
@@ -29,7 +32,7 @@ endif()
 ExternalProject_Add(
   OpenCV_Build
   URL https://github.com/umireon/opencv/archive/refs/tags/4.7.1.tar.gz
-  BUILD_COMMAND cmake --build <BINARY_DIR> --config ${OpenCV_BUILD_TYPE}
+  BUILD_COMMAND ${CMAKE_COMMAND} --build <BINARY_DIR> --config ${OpenCV_BUILD_TYPE}
   BUILD_BYPRODUCTS
     <INSTALL_DIR>/${OpenCV_LIB_PATH}/${CMAKE_STATIC_LIBRARY_PREFIX}opencv_core${OpenCV_LIB_SUFFIX}${CMAKE_STATIC_LIBRARY_SUFFIX}
     <INSTALL_DIR>/${OpenCV_LIB_PATH}/${CMAKE_STATIC_LIBRARY_PREFIX}opencv_features2d${OpenCV_LIB_SUFFIX}${CMAKE_STATIC_LIBRARY_SUFFIX}
