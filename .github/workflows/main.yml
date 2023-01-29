@@ -312,11 +312,11 @@ jobs:
           $CommitHash = (git rev-parse HEAD)[0..8] -join ''
           "commitHash=${CommitHash}" >> $env:GITHUB_OUTPUT
 
-      - run: |
-        Invoke-WebRequest https://github.com/ccache/ccache/releases/download/v4.7.4/ccache-4.7.4-windows-x86_64.zip -OutFile ${{ github.workspace }}/ccache-4.7.4-windows-x86_64.zip
-        Expand-Archive -Path ccache-4.7.4-windows-x86_64.zip -DestinationPath ${{ github.workspace }}
-        New-Item -Path ${{ github.workspace }}/bin -ItemType Directory -Force
-        Copy-Item -Path ccache-4.7.4-windows-x86_64/ccache.exe -Destination bin
+      - name: Install ccache
+        run: |
+          Invoke-WebRequest https://github.com/ccache/ccache/releases/download/v4.7.4/ccache-4.7.4-windows-x86_64.zip -OutFile ${{ github.workspace }}/ccache-4.7.4-windows-x86_64.zip
+          Expand-Archive -Path ccache-4.7.4-windows-x86_64.zip -DestinationPath ${{ github.workspace }}
+          $ENV:Path="${{ github.workspace }}/ccache-4.7.4-windows-x86_64;"+$ENV:Path
 
       - name: Restore Compilation Cache
         id: ccache-cache
