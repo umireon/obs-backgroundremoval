@@ -19,7 +19,7 @@ if(OS_WINDOWS)
       ${CMAKE_GENERATOR}
       --use_dml
       --cmake_extra_defines
-      CMAKE_VS_GLOBALS="CLToolExe=cl.exe$<SEMICOLON>CLToolPath=<BINARY_DIR>$<SEMICOLON>TrackFileAccess=false$<SEMICOLON>UseMultiToolTask=true$<SEMICOLON>DebugInformationFormat=OldStyle"
+      CMAKE_VS_GLOBALS=CLToolExe=cl.exe$<SEMICOLON>CLToolPath=<BINARY_DIR>$<SEMICOLON>TrackFileAccess=false$<SEMICOLON>UseMultiToolTask=true$<SEMICOLON>DebugInformationFormat=OldStyle
   )
   set(Onnxruntime_PLATFORM_BYPRODUCT
       <INSTALL_DIR>/lib/DirectML.lib <INSTALL_DIR>/lib/DirectML.dll
