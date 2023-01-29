@@ -280,8 +280,15 @@ jobs:
         with:
           python-version: "3.11"
           architecture: "x64"
-      
-      - run: choco upgrade ccache && gcm ccache | fl && ccache --version && echo $ENV:Path
+
+      - uses: ilammy/msvc-dev-cmd@v1
+
+      - run: choco upgrade ccache
+      - run: |
+          ccache --set-config=cache_dir="${{ github.workspace }}/.ccache"
+          ccache --set-config=max_size="4906M"
+          ccache --set-config=compression=true
+          ccache -z > /dev/null
 
       - name: Checkout obs-studio
         uses: actions/checkout@v3
@@ -296,8 +303,19 @@ jobs:
         id: setup
         run: |
           ## SETUP ENVIRONMENT SCRIPT
+          $ccacheDate = Get-Date -Format "yyyy-MM-dd"
+          "ccacheDate=$ccacheDate" >> $env:GITHUB_OUTPUT
           $CommitHash = (git rev-parse HEAD)[0..8] -join ''
           "commitHash=${CommitHash}" >> $env:GITHUB_OUTPUT
+
+      - name: Restore Compilation Cache
+        id: ccache-cache
+        uses: actions/cache@v3
+        with:
+          path: ${{ github.workspace }}/.ccache
+          key: windows-${{ matrix.arch }}-ccache-plugin-${{ steps.setup.outputs.ccacheDate }}
+          restore-keys: |
+            windows-${{ matrix.arch }}-ccache-plugin-
 
       - name: Check for GitHub Labels
         id: seekingTesters
