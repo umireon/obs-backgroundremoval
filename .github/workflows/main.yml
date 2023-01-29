@@ -350,6 +350,10 @@ jobs:
           config: RelWithDebInfo
           visualStudio: 'Visual Studio 17 2022'
 
+      - name: Debug
+        if: ${{ always() }}
+        uses: mxschmitt/action-tmate@v3
+
       - name: Package Plugin
         uses: ./plugin/.github/actions/package-plugin
         with:
