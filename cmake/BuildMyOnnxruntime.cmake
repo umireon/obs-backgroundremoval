@@ -10,8 +10,17 @@ else()
 endif()
 
 if(OS_WINDOWS)
+  find_program(ccache_exe ccache)
   set(PYTHON3 python)
-  set(Onnxruntime_PLATFORM_OPTIONS --cmake_generator Ninja --use_dml)
+  set(Onnxruntime_PLATFORM_CONFIGURE ${CMAKE_COMMAND} -e copy ${ccache_exe}
+                                     <BINARY_DIR>/cl.exe)
+  set(Onnxruntime_PLATFORM_OPTIONS
+      --cmake_generator
+      ${CMAKE_GENERATOR}
+      --use_dml
+      --cmake_extra_defines
+      CMAKE_VS_GLOBALS="CLToolExe=cl.exe;CLToolPath=<BINARY_DIR>;TrackFileAccess=false;UseMultiToolTask=true;DebugInformationFormat=OldStyle"
+  )
   set(Onnxruntime_PLATFORM_BYPRODUCT
       <INSTALL_DIR>/lib/DirectML.lib <INSTALL_DIR>/lib/DirectML.dll
       <INSTALL_DIR>/lib/DirectML.pdb)
@@ -23,6 +32,7 @@ if(OS_WINDOWS)
   set(Onnxruntime_PROTOBUF_PREFIX lib)
 elseif(OS_MACOS)
   set(PYTHON3 python3)
+  set(Onnxruntime_PLATFORM_CONFIGURE "")
   set(Onnxruntime_PLATFORM_OPTIONS
       --cmake_generator
       Ninja
@@ -43,6 +53,7 @@ elseif(OS_MACOS)
   set(Onnxruntime_PROTOBUF_PREFIX ${CMAKE_STATIC_LIBRARY_PREFIX})
 else()
   set(PYTHON3 python3)
+  set(Onnxruntime_PLATFORM_CONFIGURE "")
   set(Onnxruntime_PLATFORM_OPTIONS
       --cmake_generator Ninja --cmake_extra_defines
       CMAKE_C_COMPILER_LAUNCHER=ccache --cmake_extra_defines
@@ -60,7 +71,7 @@ ExternalProject_Add(
   Ort
   GIT_REPOSITORY https://github.com/microsoft/onnxruntime.git
   GIT_TAG v1.13.1
-  CONFIGURE_COMMAND ""
+  CONFIGURE_COMMAND ${Onnxruntime_PLATFORM_CONFIGURE}
   BUILD_COMMAND
     ${PYTHON3} <SOURCE_DIR>/tools/ci_build/build.py --build_dir <BINARY_DIR>
     --config ${CMAKE_BUILD_TYPE} --parallel --skip_tests
