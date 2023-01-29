@@ -13,13 +13,13 @@ if(OS_WINDOWS)
   find_program(ccache_exe ccache)
   set(PYTHON3 python)
   set(Onnxruntime_PLATFORM_CONFIGURE ${CMAKE_COMMAND} -E copy ${ccache_exe}
-                                     <BINARY_DIR>/cl.exe)
+                                     ${CMAKE_BINARY_DIR}/cl.exe)
   set(Onnxruntime_PLATFORM_OPTIONS
       --cmake_generator
       ${CMAKE_GENERATOR}
       --use_dml
       --cmake_extra_defines
-      CMAKE_VS_GLOBALS=CLToolExe=cl.exe$<SEMICOLON>CLToolPath=<BINARY_DIR>$<SEMICOLON>TrackFileAccess=false$<SEMICOLON>UseMultiToolTask=true$<SEMICOLON>DebugInformationFormat=OldStyle
+      CMAKE_VS_GLOBALS=CLToolExe=cl.exe$<SEMICOLON>CLToolPath=${CMAKE_BINARY_DIR}$<SEMICOLON>TrackFileAccess=false$<SEMICOLON>UseMultiToolTask=true$<SEMICOLON>DebugInformationFormat=OldStyle
       --cmake_extra_defines
       "CMAKE_CXX_FLAGS_RELWITHDEBINFO=/Z7 /O2 /Ob1 /DNDEBUG"
       --cmake_extra_defines
