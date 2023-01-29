@@ -12,7 +12,7 @@ endif()
 if(OS_WINDOWS)
   find_program(ccache_exe ccache)
   set(PYTHON3 python)
-  set(Onnxruntime_PLATFORM_CONFIGURE ${CMAKE_COMMAND} -e copy ${ccache_exe}
+  set(Onnxruntime_PLATFORM_CONFIGURE ${CMAKE_COMMAND} -E copy ${ccache_exe}
                                      <BINARY_DIR>/cl.exe)
   set(Onnxruntime_PLATFORM_OPTIONS
       --cmake_generator
