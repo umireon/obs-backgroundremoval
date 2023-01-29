@@ -284,8 +284,6 @@ jobs:
           python-version: "3.11"
           architecture: "x64"
 
-      - uses: ilammy/msvc-dev-cmd@v1
-
       - run: choco upgrade ccache
       - run: |
           ccache --set-config=cache_dir="${{ github.workspace }}/.ccache"
@@ -293,6 +291,8 @@ jobs:
           ccache --set-config=compression=true
           ccache -z
       - run: $ENV:Path
+
+      - uses: ilammy/msvc-dev-cmd@v1
 
       - name: Checkout obs-studio
         uses: actions/checkout@v3
