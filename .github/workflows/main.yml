@@ -282,6 +282,7 @@ jobs:
           architecture: "x64"
 
       - uses: ilammy/msvc-dev-cmd@v1
+      - run: $ENV:Path
 
       - run: choco upgrade ccache
       - run: |
