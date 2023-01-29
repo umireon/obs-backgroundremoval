@@ -285,7 +285,6 @@ jobs:
           architecture: "x64"
 
       - uses: ilammy/msvc-dev-cmd@v1
-      - run: $ENV:Path
 
       - run: choco upgrade ccache
       - run: |
@@ -293,6 +292,7 @@ jobs:
           ccache --set-config=max_size="4906M"
           ccache --set-config=compression=true
           ccache -z
+      - run: $ENV:Path
 
       - name: Checkout obs-studio
         uses: actions/checkout@v3
