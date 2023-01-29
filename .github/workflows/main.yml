@@ -288,7 +288,7 @@ jobs:
           ccache --set-config=cache_dir="${{ github.workspace }}/.ccache"
           ccache --set-config=max_size="4906M"
           ccache --set-config=compression=true
-          ccache -z > /dev/null
+          ccache -z
 
       - name: Checkout obs-studio
         uses: actions/checkout@v3
