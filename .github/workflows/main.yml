@@ -284,8 +284,12 @@ jobs:
           python-version: "3.11"
           architecture: "x64"
 
-      - run: choco upgrade ccache
-      - run: |
+      - name: Install ccache
+        run: |
+          Invoke-WebRequest https://github.com/ccache/ccache/releases/download/v4.7.4/ccache-4.7.4-windows-x86_64.zip -OutFile ${{ github.workspace }}/ccache-4.7.4-windows-x86_64.zip
+          Expand-Archive -Path ccache-4.7.4-windows-x86_64.zip -DestinationPath ${{ github.workspace }}
+          $ENV:Path="${{ github.workspace }}/ccache-4.7.4-windows-x86_64;"+$ENV:Path
+          ccache --version
           ccache --set-config=cache_dir="${{ github.workspace }}/.ccache"
           ccache --set-config=max_size="4906M"
           ccache --set-config=compression=true
@@ -311,12 +315,6 @@ jobs:
           "ccacheDate=$ccacheDate" >> $env:GITHUB_OUTPUT
           $CommitHash = (git rev-parse HEAD)[0..8] -join ''
           "commitHash=${CommitHash}" >> $env:GITHUB_OUTPUT
-
-      - name: Install ccache
-        run: |
-          Invoke-WebRequest https://github.com/ccache/ccache/releases/download/v4.7.4/ccache-4.7.4-windows-x86_64.zip -OutFile ${{ github.workspace }}/ccache-4.7.4-windows-x86_64.zip
-          Expand-Archive -Path ccache-4.7.4-windows-x86_64.zip -DestinationPath ${{ github.workspace }}
-          $ENV:Path="${{ github.workspace }}/ccache-4.7.4-windows-x86_64;"+$ENV:Path
 
       - name: Restore Compilation Cache
         id: ccache-cache
