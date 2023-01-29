@@ -11,8 +11,11 @@ if(MSVC)
     set(OpenCV_LIB_PATH x64/vc17/staticlib)
     set(OpenCV_LIB_PATH_3RD x64/vc17/staticlib)
     set(OpenCV_LIB_SUFFIX 470)
-    set(OpenCV_INSTALL_CCACHE ${CMAKE_COMMAND} -E copy ${ccache_exe} <BINARY_DIR>/cl.exe)
-    set(OpenCV_PLATFORM_CMAKE_ARGS -DCMAKE_VS_GLOBALS=CLToolExe=cl.exe$<SEMICOLON>CLToolPath=<BINARY_DIR>$<SEMICOLON>TrackFileAccess=false$<SEMICOLON>UseMultiToolTask=true$<SEMICOLON>DebugInformationFormat=OldStyle)
+    set(OpenCV_INSTALL_CCACHE ${CMAKE_COMMAND} -E copy ${ccache_exe}
+                              <BINARY_DIR>/cl.exe)
+    set(OpenCV_PLATFORM_CMAKE_ARGS
+        -DCMAKE_VS_GLOBALS=CLToolExe=cl.exe$<SEMICOLON>CLToolPath=<BINARY_DIR>$<SEMICOLON>TrackFileAccess=false$<SEMICOLON>UseMultiToolTask=true$<SEMICOLON>DebugInformationFormat=OldStyle
+    )
   else()
     message(FATAL_ERROR "Unsupported MSVC!")
   endif()
@@ -34,7 +37,8 @@ endif()
 ExternalProject_Add(
   OpenCV_Build
   URL https://github.com/umireon/opencv/archive/refs/tags/4.7.1.tar.gz
-  BUILD_COMMAND ${OpenCV_INSTALL_CCACHE} && ${CMAKE_COMMAND} --build <BINARY_DIR> --config ${OpenCV_BUILD_TYPE}
+  BUILD_COMMAND ${OpenCV_INSTALL_CCACHE} && ${CMAKE_COMMAND} --build
+                <BINARY_DIR> --config ${OpenCV_BUILD_TYPE}
   BUILD_BYPRODUCTS
     <INSTALL_DIR>/${OpenCV_LIB_PATH}/${CMAKE_STATIC_LIBRARY_PREFIX}opencv_core${OpenCV_LIB_SUFFIX}${CMAKE_STATIC_LIBRARY_SUFFIX}
     <INSTALL_DIR>/${OpenCV_LIB_PATH}/${CMAKE_STATIC_LIBRARY_PREFIX}opencv_features2d${OpenCV_LIB_SUFFIX}${CMAKE_STATIC_LIBRARY_SUFFIX}
