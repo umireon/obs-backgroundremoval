@@ -4,7 +4,7 @@ string(REPLACE ";" "$<SEMICOLON>" CMAKE_OSX_ARCHITECTURES_
                "${CMAKE_OSX_ARCHITECTURES}")
 
 if(MSVC)
-  find_program(ccache_exe ccache))
+  find_program(ccache_exe ccache)
   if(${CMAKE_GENERATOR_PLATFORM} STREQUAL x64
      AND ${MSVC_VERSION} GREATER_EQUAL 1910
      AND ${MSVC_VERSION} LESS_EQUAL 1939)
