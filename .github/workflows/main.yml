@@ -298,9 +298,6 @@ jobs:
           ccache --set-config=compression=true
           ccache -z
 
-      - uses: ilammy/msvc-dev-cmd@v1
-      - run: $ENV:Path
-
       - name: Checkout obs-studio
         uses: actions/checkout@v3
         with:
@@ -356,10 +353,6 @@ jobs:
           target: ${{ matrix.arch }}
           config: RelWithDebInfo
           visualStudio: 'Visual Studio 17 2022'
-
-      - name: Debug
-        if: ${{ always() }}
-        uses: mxschmitt/action-tmate@v3
 
       - name: Package Plugin
         uses: ./plugin/.github/actions/package-plugin
