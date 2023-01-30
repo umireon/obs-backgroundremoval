@@ -37,8 +37,9 @@ endif()
 ExternalProject_Add(
   OpenCV_Build
   URL https://github.com/umireon/opencv/archive/refs/tags/4.7.1.tar.gz
-  BUILD_COMMAND ${OpenCV_INSTALL_CCACHE} && ${CMAKE_COMMAND} --build
-                <BINARY_DIR> --config ${OpenCV_BUILD_TYPE}
+  PATCH_COMMAND ${OpenCV_INSTALL_CCACHE}
+  BUILD_COMMAND ${CMAKE_COMMAND} --build <BINARY_DIR> --config
+                ${OpenCV_BUILD_TYPE}
   BUILD_BYPRODUCTS
     <INSTALL_DIR>/${OpenCV_LIB_PATH}/${CMAKE_STATIC_LIBRARY_PREFIX}opencv_core${OpenCV_LIB_SUFFIX}${CMAKE_STATIC_LIBRARY_SUFFIX}
     <INSTALL_DIR>/${OpenCV_LIB_PATH}/${CMAKE_STATIC_LIBRARY_PREFIX}opencv_features2d${OpenCV_LIB_SUFFIX}${CMAKE_STATIC_LIBRARY_SUFFIX}
