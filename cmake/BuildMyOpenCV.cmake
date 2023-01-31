@@ -1,6 +1,6 @@
 include(ExternalProject)
 
-string(REPLACE ";" "$<SEMICOLON>" CMAKE_OSX_ARCHITECTURES_
+string(REPLACE ";" "$<SEMICOLON>" OpenCV_CMAKE_OSX_ARCHITECTURES_
                "${CMAKE_OSX_ARCHITECTURES}")
 
 if(MSVC)
@@ -56,7 +56,7 @@ ExternalProject_Add(
              -DENABLE_CCACHE=ON
              -DOPENCV_FORCE_3RDPARTY_BUILD=ON
              -DCMAKE_OSX_DEPLOYMENT_TARGET=10.13
-             -DCMAKE_OSX_ARCHITECTURES=${CMAKE_OSX_ARCHITECTURES_}
+             -DCMAKE_OSX_ARCHITECTURES=${OpenCV_CMAKE_OSX_ARCHITECTURES_}
              -DBUILD_SHARED_LIBS=OFF
              -DBUILD_opencv_apps=OFF
              -DBUILD_opencv_js=OFF

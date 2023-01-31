@@ -1,6 +1,6 @@
 include(ExternalProject)
 
-string(REPLACE ";" "$<SEMICOLON>" CMAKE_OSX_ARCHITECTURES_
+string(REPLACE ";" "$<SEMICOLON>" Onnxruntime_CMAKE_OSX_ARCHITECTURES_
                "${CMAKE_OSX_ARCHITECTURES}")
 
 if(${CMAKE_BUILD_TYPE} STREQUAL Release OR ${CMAKE_BUILD_TYPE} STREQUAL
@@ -46,7 +46,7 @@ elseif(OS_MACOS)
       --apple_deploy_target
       ${CMAKE_OSX_DEPLOYMENT_TARGET}
       --osx_arch
-      ${CMAKE_OSX_ARCHITECTURES}
+      ${Onnxruntime_CMAKE_OSX_ARCHITECTURES_}
       --cmake_extra_defines
       CMAKE_C_COMPILER_LAUNCHER=ccache
       --cmake_extra_defines
