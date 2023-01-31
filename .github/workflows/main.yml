@@ -248,7 +248,7 @@ jobs:
         uses: actions/download-artifact@v3
         with:
           name: ${{ env.PLUGIN_NAME }}-macos-x86_64-${{ steps.setup.outputs.commitHash }}
-          with: ${{ github.workspace }}/plugin/release
+          path: ${{ github.workspace }}/plugin/release
       
       - name: Extract x86_64 build artifact
         working-directory: ${{ github.workspace }}/plugin/release
@@ -278,7 +278,7 @@ jobs:
         uses: actions/download-artifact@v3
         with:
           name: ${{ env.PLUGIN_NAME }}-macos-arm64-${{ steps.setup.outputs.commitHash }}
-          with: ${{ github.workspace }}/plugin/release
+          path: ${{ github.workspace }}/plugin/release
 
       - name: Extract ARM64 build artifact
         working-directory: ${{ github.workspace }}/plugin/release
