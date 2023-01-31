@@ -166,10 +166,6 @@ jobs:
   macos_package:
     name: 02 - macOS (package)
     runs-on: macos-12
-    strategy:
-      fail-fast: true
-      matrix:
-        arch: [x86_64, arm64, universal]
     needs: [macos_build]
     outputs:
       commitHash: ${{ steps.setup.outputs.commitHash }}
@@ -245,6 +241,8 @@ jobs:
         run: |
           print "CODESIGN_IDENT=${{ secrets.MACOS_SIGNING_APPLICATION_IDENTITY }}" >> $GITHUB_ENV
           print "CODESIGN_IDENT_INSTALLER=${{ secrets.MACOS_SIGNING_INSTALLER_IDENTITY }}" >> $GITHUB_ENV
+
+      - run: mkdir -p ${{ github.workspace }}/plugin/release
 
       - name: Download x86_64 build artifact
         uses: actions/download-artifact@v3
