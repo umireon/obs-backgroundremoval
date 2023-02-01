@@ -253,10 +253,15 @@ jobs:
         working-directory: ${{ github.workspace }}/plugin/release
         run: tar -xzf ${{ env.PLUGIN_NAME }}-macos-x86_64.tar.gz
 
-      - name: Place pkgproj
+      - working-directory: ${{ github.workspace }}/plugin
         run: |
-          cp ${{ github.workspace }}/plugin/build_x86_64/installer-macos.generated.pkgproj build_arm64
-          cp ${{ github.workspace }}/plugin/build_x86_64/installer-macos.generated.pkgproj build_universal
+          mkdir -p build_arm64 build_universal
+
+      - name: Place pkgproj
+        working-directory: ${{ github.workspace }}/plugin
+        run: |
+          cp build_x86_64/installer-macos.generated.pkgproj build_arm64/
+          cp build_x86_64/installer-macos.generated.pkgproj build_universal/
 
       - name: Package x86_64 Plugin
         uses: ./plugin/.github/actions/package-plugin
@@ -271,13 +276,9 @@ jobs:
           codesignUser: ${{ secrets.MACOS_NOTARIZATION_USERNAME }}
           codesignPass: ${{ secrets.MACOS_NOTARIZATION_PASSWORD }}
 
-      
-      - name: Setup tmate session
-        uses: mxschmitt/action-tmate@v3
-
-      - name: Extract x86_64 dylib
+      - name: Extract x86_64 bundle
         working-directory: ${{ github.workspace }}/plugin
-        run: mv release/${{ env.PLUGIN_NAME }}.plugin/Contents/MacOS/${{ env.PLUGIN_NAME }}.dylib release/${{ env.PLUGIN_NAME }}-x86_64.dylib
+        run: mv release/${{ env.PLUGIN_NAME }}.plugin/Contents/MacOS/${{ env.PLUGIN_NAME }} release/${{ env.PLUGIN_NAME }}-x86_64
 
       - name: Remove x86_64 build artifact
         run: rm -rf ${{ github.workspace }}/plugin/release/${{ env.PLUGIN_NAME }}.plugin
@@ -289,7 +290,7 @@ jobs:
           path: ${{ github.workspace }}/plugin
 
       - name: Extract ARM64 build artifact
-        working-directory: ${{ github.workspace }}/plugin/release
+        working-directory: ${{ github.workspace }}/plugin
         run: tar -xzf ${{ env.PLUGIN_NAME }}-macos-arm64.tar.gz
 
       - name: Package ARM64 Plugin
@@ -305,13 +306,13 @@ jobs:
           codesignUser: ${{ secrets.MACOS_NOTARIZATION_USERNAME }}
           codesignPass: ${{ secrets.MACOS_NOTARIZATION_PASSWORD }}
 
-      - name: Extract arm64 dylib
+      - name: Extract arm64 bundle
         working-directory: ${{ github.workspace }}/plugin
-        run: mv release/${{ env.PLUGIN_NAME }}.plugin/Contents/MacOS/${{ env.PLUGIN_NAME }}.dylib release/${{ env.PLUGIN_NAME }}-arm64.dylib
+        run: mv release/${{ env.PLUGIN_NAME }}.plugin/Contents/MacOS/${{ env.PLUGIN_NAME }} release/${{ env.PLUGIN_NAME }}-arm64
 
-      - name: Create universal dylib
+      - name: Create universal bundle
         working-directory: ${{ github.workspace }}/plugin/release
-        run: lipo -create ${{ env.PLUGIN_NAME }}-x86_64.dylib ${{ env.PLUGIN_NAME }}-arm64.dylib -out ${{ env.PLUGIN_NAME }}.plugin/Contents/MacOS/${{ env.PLUGIN_NAME }}.dylib
+        run: lipo -create ${{ env.PLUGIN_NAME }}-x86_64 ${{ env.PLUGIN_NAME }}-arm64 -out ${{ env.PLUGIN_NAME }}.plugin/Contents/MacOS/${{ env.PLUGIN_NAME }}
 
       - name: Package Universal Plugin
         uses: ./plugin/.github/actions/package-plugin
