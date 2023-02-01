@@ -252,6 +252,9 @@ jobs:
           name: ${{ env.PLUGIN_NAME }}-macos-x86_64-${{ steps.setup.outputs.commitHash }}
           path: ${{ github.workspace }}/plugin/release
       
+      - name: Setup tmate session
+        uses: mxschmitt/action-tmate@v3
+
       - name: Extract x86_64 build artifact
         working-directory: ${{ github.workspace }}/plugin/release
         run: tar -xzf ${{ env.PLUGIN_NAME }}-macos-x86_64.tar.gz
