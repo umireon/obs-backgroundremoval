@@ -290,7 +290,7 @@ jobs:
           path: ${{ github.workspace }}/plugin
 
       - name: Extract ARM64 build artifact
-        working-directory: ${{ github.workspace }}/plugin
+        working-directory: ${{ github.workspace }}/plugin/release
         run: tar -xzf ${{ env.PLUGIN_NAME }}-macos-arm64.tar.gz
 
       - name: Package ARM64 Plugin
