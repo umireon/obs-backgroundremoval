@@ -154,16 +154,15 @@ jobs:
 
       - name: Archive Artifact
         working-directory: ${{ github.workspace }}/plugin/release/
-        run: tar -cf ../${{ env.PLUGIN_NAME }}-macos-${{ matrix.arch }}.tar.gz ${{ env.PLUGIN_NAME }}.plugin
+        run: tar -cf ${{ env.PLUGIN_NAME }}-macos-${{ matrix.arch }}.tar.gz ${{ env.PLUGIN_NAME }}.plugin
 
       - name: Upload Build Artifact
-        working-directory: ${{ github.workspace }}/plugin
         uses: actions/upload-artifact@v3
         with:
           name: ${{ env.PLUGIN_NAME }}-macos-${{ matrix.arch }}-${{ steps.setup.outputs.commitHash }}
           path: |
-            ${{ env.PLUGIN_NAME }}-macos-${{ matrix.arch }}.tar.gz
-            build_${{ matrix.arch }}/installer-macos.generated.pkgproj
+            ${{ github.workspace }}/plugin/release/${{ env.PLUGIN_NAME }}-macos-${{ matrix.arch }}.tar.gz
+            ${{ github.workspace }}/plugin/build_${{ matrix.arch }}/installer-macos.generated.pkgproj
 
   macos_package:
     name: 02 - macOS (package)
@@ -244,8 +243,6 @@ jobs:
           print "CODESIGN_IDENT=${{ secrets.MACOS_SIGNING_APPLICATION_IDENTITY }}" >> $GITHUB_ENV
           print "CODESIGN_IDENT_INSTALLER=${{ secrets.MACOS_SIGNING_INSTALLER_IDENTITY }}" >> $GITHUB_ENV
 
-      - run: mkdir -p ${{ github.workspace }}/plugin/release
-
       - name: Download x86_64 build artifact
         uses: actions/download-artifact@v3
         with:
@@ -254,15 +251,12 @@ jobs:
 
       - name: Extract x86_64 build artifact
         working-directory: ${{ github.workspace }}/plugin/release
-        run: tar -xzf ../${{ env.PLUGIN_NAME }}-macos-x86_64.tar.gz
+        run: tar -xzf ${{ env.PLUGIN_NAME }}-macos-x86_64.tar.gz
 
       - name: Place pkgproj
-        working-directory: ${{ github.workspace }}/plugin
         run: |
-          mkdir -p build_x86_64 build_arm64 build_universal
-          cp ${{ github.workspace }}/plugin/release/installer-macos.generated.pkgproj build_x86_64
-          cp ${{ github.workspace }}/plugin/release/installer-macos.generated.pkgproj build_arm64
-          cp ${{ github.workspace }}/plugin/release/installer-macos.generated.pkgproj build_universal
+          cp ${{ github.workspace }}/plugin/build_x86_64/installer-macos.generated.pkgproj build_arm64
+          cp ${{ github.workspace }}/plugin/build_x86_64/installer-macos.generated.pkgproj build_universal
 
       - name: Package x86_64 Plugin
         uses: ./plugin/.github/actions/package-plugin
@@ -288,7 +282,7 @@ jobs:
         uses: actions/download-artifact@v3
         with:
           name: ${{ env.PLUGIN_NAME }}-macos-arm64-${{ steps.setup.outputs.commitHash }}
-          path: ${{ github.workspace }}/plugin/release
+          path: ${{ github.workspace }}/plugin
 
       - name: Extract ARM64 build artifact
         working-directory: ${{ github.workspace }}/plugin/release
