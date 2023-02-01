@@ -312,7 +312,7 @@ jobs:
 
       - name: Create universal bundle
         working-directory: ${{ github.workspace }}/plugin/release
-        run: lipo -create ${{ env.PLUGIN_NAME }}-x86_64 ${{ env.PLUGIN_NAME }}-arm64 -out ${{ env.PLUGIN_NAME }}.plugin/Contents/MacOS/${{ env.PLUGIN_NAME }}
+        run: lipo -create ${{ env.PLUGIN_NAME }}-x86_64 ${{ env.PLUGIN_NAME }}-arm64 -output ${{ env.PLUGIN_NAME }}.plugin/Contents/MacOS/${{ env.PLUGIN_NAME }}
 
       - name: Package Universal Plugin
         uses: ./plugin/.github/actions/package-plugin
