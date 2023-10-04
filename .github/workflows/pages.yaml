@@ -3,7 +3,7 @@ name: "Deploy pages to GitHub Pages"
 on:
   push:
     branches:
-      - "docs"
+      - "main"
 
 permissions:
   contents: "read"
