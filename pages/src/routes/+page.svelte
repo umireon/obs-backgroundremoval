@@ -1,31 +1,28 @@
 <script>
-	import Counter from './Counter.svelte';
-	import welcome from '$lib/images/svelte-welcome.webp';
-	import welcome_fallback from '$lib/images/svelte-welcome.png';
+	import { base } from '$app/paths';
 </script>
 
 <svelte:head>
-	<title>Home</title>
-	<meta name="description" content="Svelte demo app" />
+	<title>OBS Background Removal</title>
+	<meta name="description" content="OBS Plugin: Portrait Background Removal / Virtual Green-screen and Low-Light Enhancement" />
 </svelte:head>
 
 <section>
-	<h1>
-		<span class="welcome">
-			<picture>
-				<source srcset={welcome} type="image/webp" />
-				<img src={welcome_fallback} alt="Welcome" />
-			</picture>
-		</span>
+	<header>
+		<h1>OBS Background Removal</h1>
+		<h2>OBS Plugin: Portrait Background Removal / Virtual Green-screen and Low-Light Enhancement</h2>
+	</header>
 
-		to your new<br />SvelteKit app
-	</h1>
+	<h1>Download and Install (Official)</h1>
+	<a href="{base}/windows"><h2>Windows</h2></a>
+	<a href="{base}/macos"><h2>macOS</h2></a>
+	<a href="{base}/ubuntu"><h2>Ubuntu Linux</h2></a>
+	<a href="{base}/flatpak"><h2>FlatPak</h2></a>
 
-	<h2>
-		try editing <strong>src/routes/+page.svelte</strong>
-	</h2>
-
-	<Counter />
+	<h1>Download and Install (Unofficial)</h1>
+	<a href="{base}/arch"><h2>Arch Linux</h2></a>
+	<a href="{base}/opensuse-tumbleweed"><h2>openSUSE Tumbleweed</h2></a>
+	<a href="{base}/fedora"><h2>Fedora</h2></a>
 </section>
 
 <style>
@@ -39,21 +36,5 @@
 
 	h1 {
 		width: 100%;
-	}
-
-	.welcome {
-		display: block;
-		position: relative;
-		width: 100%;
-		height: 0;
-		padding: 0 0 calc(100% * 495 / 2048) 0;
-	}
-
-	.welcome img {
-		position: absolute;
-		width: 100%;
-		height: 100%;
-		top: 0;
-		display: block;
 	}
 </style>
