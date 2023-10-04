@@ -7,9 +7,13 @@ const config = {
 
 	kit: {
 		adapter: adapter({
-			fallback: "index.html",
-		})
-	}
+			fallback: 'index.html',
+		}),
+
+		paths: {
+			base: '/obs-backgroundremoval'
+		}
+	},
 };
 
 export default config;
